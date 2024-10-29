@@ -14,6 +14,19 @@ public enum ErrorCode {
     UPDATE_BRAND_FAILED(100006, "Update brand failed", HttpStatus.BAD_REQUEST),
     GET_BRAND_FAILED(100007, "Get brand failed", HttpStatus.NOT_FOUND),
     DELETE_BRAND_FAILED(100008, "Delete brand failed", HttpStatus.BAD_REQUEST),
+    CREATE_CATEGORY_FAILED(100009, "Create category failed", HttpStatus.BAD_REQUEST),
+    GET_CATEGORY_FAILED(100010, "Get category failed", HttpStatus.NOT_FOUND),
+    UPDATE_CATEGORY_FAILED(100011, "Update category failed", HttpStatus.BAD_REQUEST),
+    DELETE_CATEGORY_FAILED(100012, "Delete category failed", HttpStatus.BAD_REQUEST),
+    CREATE_PRODUCT_CATEGORY_FAILED(100013, "Create product category failed", HttpStatus.BAD_REQUEST),
+    GET_PRODUCT_CATEGORY_FAILED(100014, "Get product category failed", HttpStatus.NOT_FOUND),
+    DELETE_PRODUCT_CATEGORY_FAILED(100015, "Delete product category failed", HttpStatus.BAD_REQUEST),
+    CREATE_PRODUCT_FAILED(100016, "Create product failed", HttpStatus.BAD_REQUEST),
+    GET_PRODUCT_FAILED(100017, "Get product failed", HttpStatus.NOT_FOUND),
+    UPDATE_PRODUCT_FAILED(100018, "Update product failed", HttpStatus.BAD_REQUEST),
+    DELETE_PRODUCT_FAILED(100019, "Delete product failed", HttpStatus.BAD_REQUEST),
+    CREATE_PRODUCT_RELATED_FAILED(100020, "Create product related failed", HttpStatus.BAD_REQUEST),
+    DELETE_PRODUCT_RELATED_FAILED(100021, "Delete product related failed", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {
