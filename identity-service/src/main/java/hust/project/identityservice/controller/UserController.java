@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<Resource> updateUser(
             @PathVariable(name = "id") Long id,
             @RequestBody UpdateUserRequest request
-            ) {
+    ) {
         return ResponseEntity.ok(new Resource(userService.updateUserRole(id, request.getRoleId())));
     }
 }
