@@ -49,6 +49,11 @@ public class BrandAdapter implements IBrandPort {
     }
 
     @Override
+    public List<BrandEntity> getBrandsByIds(List<Long> ids) {
+        return BrandMapper.INSTANCE.toEntitiesFromModels(brandRepository.findByIdIn(ids));
+    }
+
+    @Override
     public Pair<PageInfo, List<BrandEntity>> getAllBrands(GetBrandRequest filter) {
         Pageable pageable = PageRequest.of(Math.toIntExact(filter.getPage()), Math.toIntExact(filter.getPageSize()),
                 Sort.by("id").descending());

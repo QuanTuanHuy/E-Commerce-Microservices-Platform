@@ -5,6 +5,7 @@ import hust.project.productservice.entity.dto.request.GetBrandRequest;
 import hust.project.productservice.entity.dto.request.UpdateBrandRequest;
 import hust.project.productservice.entity.dto.response.Resource;
 import hust.project.productservice.service.IBrandService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class BrandController {
     private final IBrandService brandService;
 
     @PostMapping
-    public ResponseEntity<Resource> createBrand(@RequestBody CreateBrandRequest request) {
+    public ResponseEntity<Resource> createBrand(@Valid @RequestBody CreateBrandRequest request) {
         return ResponseEntity.ok(new Resource(brandService.createBrand(request)));
     }
 
@@ -49,8 +50,8 @@ public class BrandController {
     @PutMapping("/{id}")
     public ResponseEntity<Resource> updateBrand(
             @PathVariable Long id,
-            @RequestBody UpdateBrandRequest request
-            ) {
+            @Valid @RequestBody UpdateBrandRequest request
+    ) {
         return ResponseEntity.ok(new Resource(brandService.updateBrand(id, request)));
     }
 

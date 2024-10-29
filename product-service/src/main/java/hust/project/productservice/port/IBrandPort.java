@@ -12,6 +12,8 @@ public interface IBrandPort {
 
     BrandEntity getBrandById(Long id);
 
+    List<BrandEntity> getBrandsByIds(List<Long> ids);
+
     Pair<PageInfo, List<BrandEntity>> getAllBrands(GetBrandRequest filter);
 
     void deleteBrand(Long id);

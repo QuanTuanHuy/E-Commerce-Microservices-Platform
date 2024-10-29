@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "brand", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "slug"),
-        @UniqueConstraint(columnNames = "name")
-})
+@Table(name = "brands")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,10 +15,10 @@ public class BrandModel extends AuditTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
-    @Column(name = "slug")
+    @Column(name = "slug", unique = true)
     private String slug;
 
     @Column(name = "image_id")
