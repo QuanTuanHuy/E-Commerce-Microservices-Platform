@@ -3,7 +3,9 @@ package hust.project.productservice.service;
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.CreateProductRequest;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
+import hust.project.productservice.entity.dto.request.GetProductThumbnailRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
 import org.springframework.data.util.Pair;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public interface IProductService {
     ProductEntity getDetailProduct(Long id);
 
     Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter);
+
+    List<ProductThumbnailResponse> getAllProductThumbnails(GetProductThumbnailRequest filter);
 
     void deleteProduct(Long id);
 }

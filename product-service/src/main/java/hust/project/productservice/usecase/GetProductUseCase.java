@@ -3,7 +3,9 @@ package hust.project.productservice.usecase;
 import hust.project.productservice.constants.ImageType;
 import hust.project.productservice.entity.*;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
+import hust.project.productservice.entity.dto.request.GetProductThumbnailRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
 import hust.project.productservice.port.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
@@ -113,6 +115,22 @@ public class GetProductUseCase {
         });
 
         return Pair.of(result.getFirst(), products);
+    }
+
+    public List<ProductThumbnailResponse> getAllProductThumbnails(GetProductThumbnailRequest filter) {
+        if (CollectionUtils.isEmpty(filter.getProductIds())) {
+            return List.of();
+        }
+
+        return productPort.getProductsByIds(filter.getProductIds())
+                .stream()
+                .map(productEntity -> ProductThumbnailResponse.builder()
+                        .id(productEntity.getId())
+                        .name(productEntity.getName())
+                        .slug(productEntity.getSlug())
+                        .thumbnailImage(productEntity.getThumbnailImage())
+                        .build())
+                .toList();
     }
 
 }

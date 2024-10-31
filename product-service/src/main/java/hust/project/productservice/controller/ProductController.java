@@ -52,6 +52,17 @@ public class ProductController {
         return ResponseEntity.ok(new Resource(productService.getAllProducts(filter)));
     }
 
+    @GetMapping("/thumbnails")
+    public ResponseEntity<Resource> getAllProductThumbnails(
+            @RequestParam(name = "product_ids") List<Long> productIds
+    ) {
+        var filter = GetProductThumbnailRequest.builder()
+                .productIds(productIds)
+                .build();
+
+        return ResponseEntity.ok(new Resource(productService.getAllProductThumbnails(filter)));
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Resource> deleteProduct(@PathVariable Long id) {

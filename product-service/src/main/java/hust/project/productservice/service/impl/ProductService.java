@@ -3,7 +3,9 @@ package hust.project.productservice.service.impl;
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.CreateProductRequest;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
+import hust.project.productservice.entity.dto.request.GetProductThumbnailRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
 import hust.project.productservice.service.IProductService;
 import hust.project.productservice.usecase.CreateProductUseCase;
 import hust.project.productservice.usecase.DeleteProductUseCase;
@@ -34,6 +36,11 @@ public class ProductService implements IProductService {
     @Override
     public Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter) {
         return getProductUseCase.getAllProducts(filter);
+    }
+
+    @Override
+    public List<ProductThumbnailResponse> getAllProductThumbnails(GetProductThumbnailRequest filter) {
+        return getProductUseCase.getAllProductThumbnails(filter);
     }
 
     @Override
