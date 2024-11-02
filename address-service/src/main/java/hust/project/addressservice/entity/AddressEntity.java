@@ -10,7 +10,7 @@ import lombok.*;
 public class AddressEntity {
     private Long id;
 
-    private Long userId;
+    private String contactName;
 
     private String phoneNumber;
 

@@ -12,8 +12,6 @@ public class AddressDetailResponse {
 
     private String addressDetail;
 
-    private Long userId;
-
     private String contactName;
 
     private String phoneNumber;

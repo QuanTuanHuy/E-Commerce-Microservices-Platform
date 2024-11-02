@@ -15,15 +15,21 @@ public class AddressModel extends AuditTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    @Column(name = "contact_name")
+    private String contactName;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "address_detail")
     private String addressDetail;
 
+    @Column(name = "province_id")
     private Long provinceId;
 
+    @Column(name = "district_id")
     private Long districtId;
 
+    @Column(name = "ward_id")
     private Long wardId;
 }
