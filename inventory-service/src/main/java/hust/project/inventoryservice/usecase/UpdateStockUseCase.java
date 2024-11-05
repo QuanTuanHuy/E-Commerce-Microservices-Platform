@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class UpdateStockUseCase {
     private final IStockPort stockPort;
     private final IProductPort productPort;
+    private final CreateStockHistoryUseCase createStockHistoryUseCase;
 
     public List<StockEntity> updateProductQuantityInStocks(List<UpdateStockQuantityRequest> requests) {
 
@@ -64,6 +65,10 @@ public class UpdateStockUseCase {
 
 
         productPort.updateProductQuantity(productQuantityRequests);
+
+
+        // create stock history
+        createStockHistoryUseCase.createStockHistories(requests, mapIdToStock);
 
         return savedStocks;
     }

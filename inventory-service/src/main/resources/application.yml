@@ -29,6 +29,8 @@ app:
       url: http://localhost:8082
     address-service:
       url: http://localhost:8084
+    identity-service:
+      url: http://localhost:8081
 
 
 server:

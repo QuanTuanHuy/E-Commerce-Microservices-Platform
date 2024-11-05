@@ -1,5 +1,6 @@
 package hust.project.inventoryservice.entity;
 
+import hust.project.inventoryservice.entity.dto.response.UserInfoResponse;
 import lombok.*;
 
 @Setter
@@ -18,5 +19,9 @@ public class StockHistoryEntity {
 
     private Long warehouseId;
 
+    private Long createdById;
+
     private WarehouseEntity warehouse;
+
+    private UserInfoResponse createdBy;
 }

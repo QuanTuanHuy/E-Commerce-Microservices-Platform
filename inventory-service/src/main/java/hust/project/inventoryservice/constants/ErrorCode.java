@@ -19,6 +19,7 @@ public enum ErrorCode {
     GET_STOCK_FAILED(100011, "Get stock failed", HttpStatus.NOT_FOUND),
     UPDATE_STOCK_FAILED(100012, "Update stock failed", HttpStatus.BAD_REQUEST),
     DELETE_STOCK_FAILED(100013, "Delete stock failed", HttpStatus.BAD_REQUEST),
+    CREATE_STOCK_HISTORY_FAILED(100014, "Create stock history failed", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {

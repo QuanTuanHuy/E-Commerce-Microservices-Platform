@@ -26,4 +26,7 @@ public class StockHistoryModel extends AuditTable {
 
     @Column(name = "warehouse_id")
     private Long warehouseId;
+
+    @Column(name = "created_by_id")
+    private Long createdById;
 }
