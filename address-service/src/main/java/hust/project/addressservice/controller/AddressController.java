@@ -47,4 +47,9 @@ public class AddressController {
         addressService.deleteAddress(id);
         return ResponseEntity.ok(new Resource(null));
     }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Resource> validateAddress(@RequestBody @Valid ValidateAddressRequest request) {
+        return ResponseEntity.ok(new Resource(addressService.validateAddress(request)));
+    }
 }

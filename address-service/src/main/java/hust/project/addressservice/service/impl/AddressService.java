@@ -3,11 +3,10 @@ package hust.project.addressservice.service.impl;
 import hust.project.addressservice.entity.AddressEntity;
 import hust.project.addressservice.entity.dto.request.CreateAddressRequest;
 import hust.project.addressservice.entity.dto.request.UpdateAddressRequest;
+import hust.project.addressservice.entity.dto.request.ValidateAddressRequest;
+import hust.project.addressservice.entity.dto.response.ValidateAddressResponse;
 import hust.project.addressservice.service.IAddressService;
-import hust.project.addressservice.usecase.CreateAddressUseCase;
-import hust.project.addressservice.usecase.DeleteAddressUseCase;
-import hust.project.addressservice.usecase.GetAddressUseCase;
-import hust.project.addressservice.usecase.UpdateAddressUseCase;
+import hust.project.addressservice.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ public class AddressService implements IAddressService {
     private final GetAddressUseCase getAddressUseCase;
     private final UpdateAddressUseCase updateAddressUseCase;
     private final DeleteAddressUseCase deleteAddressUseCase;
+    private final ValidateAddressUseCase validateAddressUseCase;
 
     @Override
     public AddressEntity createAddress(CreateAddressRequest request) {
@@ -44,5 +44,10 @@ public class AddressService implements IAddressService {
     @Override
     public void deleteAddress(Long id) {
         deleteAddressUseCase.deleteAddress(id);
+    }
+
+    @Override
+    public ValidateAddressResponse validateAddress(ValidateAddressRequest request) {
+        return validateAddressUseCase.validateAddress(request);
     }
 }
