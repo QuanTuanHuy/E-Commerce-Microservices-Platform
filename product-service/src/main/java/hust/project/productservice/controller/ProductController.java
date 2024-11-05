@@ -54,10 +54,13 @@ public class ProductController {
 
     @GetMapping("/thumbnails")
     public ResponseEntity<Resource> getAllProductThumbnails(
-            @RequestParam(name = "product_ids") List<Long> productIds
+            @RequestParam(name = "product_ids") List<Long> productIds,
+            @RequestParam(name = "slug", required = false) String slug,
+            @RequestParam(name = "name", required = false) String name
     ) {
-        var filter = GetProductThumbnailRequest.builder()
+        var filter = GetProductListRequest.builder()
                 .productIds(productIds)
+                .slug(slug).name(name)
                 .build();
 
         return ResponseEntity.ok(new Resource(productService.getAllProductThumbnails(filter)));
@@ -67,6 +70,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Resource> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+        return ResponseEntity.ok(new Resource(null));
+    }
+
+    @PutMapping("/update_quantity")
+    public ResponseEntity<Resource> updateProductQuantity(
+            @RequestBody List<UpdateProductQuantityRequest> requests
+    ) {
+        productService.updateProductQuantity(requests);
         return ResponseEntity.ok(new Resource(null));
     }
 

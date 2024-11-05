@@ -3,13 +3,15 @@ package hust.project.productservice.service.impl;
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.CreateProductRequest;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
-import hust.project.productservice.entity.dto.request.GetProductThumbnailRequest;
+import hust.project.productservice.entity.dto.request.GetProductListRequest;
+import hust.project.productservice.entity.dto.request.UpdateProductQuantityRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
 import hust.project.productservice.service.IProductService;
 import hust.project.productservice.usecase.CreateProductUseCase;
 import hust.project.productservice.usecase.DeleteProductUseCase;
 import hust.project.productservice.usecase.GetProductUseCase;
+import hust.project.productservice.usecase.UpdateProductUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class ProductService implements IProductService {
     private final CreateProductUseCase createProductUseCase;
     private final GetProductUseCase getProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
+    private final UpdateProductUseCase updateProductUseCase;
 
     @Override
     public ProductEntity createProduct(CreateProductRequest request) {
@@ -39,8 +42,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductThumbnailResponse> getAllProductThumbnails(GetProductThumbnailRequest filter) {
+    public List<ProductThumbnailResponse> getAllProductThumbnails(GetProductListRequest filter) {
         return getProductUseCase.getAllProductThumbnails(filter);
+    }
+
+    @Override
+    public void updateProductQuantity(List<UpdateProductQuantityRequest> requests) {
+        updateProductUseCase.updateProductQuantity(requests);
     }
 
     @Override

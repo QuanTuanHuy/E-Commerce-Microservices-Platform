@@ -17,13 +17,8 @@ import java.util.List;
 @Service
 public class CustomProductRepositoryImpl implements CustomProductRepository {
 
-    private final RequestContextFilter requestContextFilter;
     @PersistenceContext
     private EntityManager entityManager;
-
-    public CustomProductRepositoryImpl(RequestContextFilter requestContextFilter) {
-        this.requestContextFilter = requestContextFilter;
-    }
 
     @Override
     public Pair<PageInfo, List<ProductModel>> getAllProducts(GetProductRequest filter) {
@@ -39,7 +34,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
         sql += "    WHERE p.is_published = " + filter.getIsPublished() + "\n";
 
         if (StringUtils.hasText(filter.getProductSlug())) {
-            sql += "    AND p.slug = " + filter.getProductSlug() + "\n";
+            sql += "    AND p.slug = '" + filter.getProductSlug() + "'\n";
         }
 
         if (StringUtils.hasText(filter.getProductName())) {

@@ -3,12 +3,14 @@ package hust.project.productservice.repository.adapter;
 import hust.project.productservice.constants.ErrorCode;
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
+import hust.project.productservice.entity.dto.request.GetProductListRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.exception.AppException;
 import hust.project.productservice.mapper.ProductMapper;
 import hust.project.productservice.model.ProductModel;
 import hust.project.productservice.port.IProductPort;
 import hust.project.productservice.repository.IProductRepository;
+import hust.project.productservice.repository.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.Pair;
@@ -57,6 +59,12 @@ public class ProductAdapter implements IProductPort {
     @Override
     public List<ProductEntity> getProductsByIds(List<Long> ids) {
         return ProductMapper.INSTANCE.toEntitiesFromModels(productRepository.findByIdIn(ids));
+    }
+
+    @Override
+    public List<ProductEntity> getAllProducts(GetProductListRequest filter) {
+        return ProductMapper.INSTANCE.toEntitiesFromModels(
+                productRepository.findAll(ProductSpecification.getAllProducts(filter)));
     }
 
     @Override

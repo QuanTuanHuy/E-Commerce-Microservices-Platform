@@ -9,6 +9,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetProductThumbnailRequest {
+public class GetProductListRequest {
+    private String name;
+    private String slug;
     private List<Long> productIds;
 }

@@ -2,6 +2,7 @@ package hust.project.productservice.port;
 
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
+import hust.project.productservice.entity.dto.request.GetProductListRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import org.springframework.data.util.Pair;
 
@@ -15,6 +16,8 @@ public interface IProductPort {
     ProductEntity getProductById(Long id);
 
     List<ProductEntity> getProductsByIds(List<Long> ids);
+
+    List<ProductEntity> getAllProducts(GetProductListRequest filter);
 
     List<ProductEntity> getProductsByParentId(Long parentId);
 
