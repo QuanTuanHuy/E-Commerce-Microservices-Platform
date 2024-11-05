@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: inventory-service
+
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3308/inventory_service
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app:
+  jwt:
+    signer-key: 1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij
+    valid-duration: 360000
+
+  services:
+    product-service:
+      url: http://localhost:8082
+    address-service:
+      url: http://localhost:8084
+
+
+server:
+  port: 8085
+
