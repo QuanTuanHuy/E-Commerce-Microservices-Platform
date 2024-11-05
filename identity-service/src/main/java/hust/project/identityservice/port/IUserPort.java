@@ -1,6 +1,7 @@
 package hust.project.identityservice.port;
 
 import hust.project.identityservice.entity.UserEntity;
+import hust.project.identityservice.entity.dto.request.GetUserListRequest;
 import hust.project.identityservice.entity.dto.request.GetUserRequest;
 import hust.project.identityservice.entity.dto.response.PageInfo;
 import org.springframework.data.util.Pair;
@@ -13,6 +14,8 @@ public interface IUserPort {
     UserEntity getByEmail(String email);
 
     UserEntity getById(Long id);
+
+    List<UserEntity> getAllUsers(GetUserListRequest request);
 
     Pair<PageInfo, List<UserEntity>> getAll(GetUserRequest filter);
 }

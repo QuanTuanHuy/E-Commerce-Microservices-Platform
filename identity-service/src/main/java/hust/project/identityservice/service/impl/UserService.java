@@ -2,8 +2,10 @@ package hust.project.identityservice.service.impl;
 
 import hust.project.identityservice.entity.UserEntity;
 import hust.project.identityservice.entity.dto.request.CreateUserRequest;
+import hust.project.identityservice.entity.dto.request.GetUserListRequest;
 import hust.project.identityservice.entity.dto.request.GetUserRequest;
 import hust.project.identityservice.entity.dto.response.PageInfo;
+import hust.project.identityservice.entity.dto.response.UserInfoResponse;
 import hust.project.identityservice.service.IUserService;
 import hust.project.identityservice.usercase.CreateUserUseCase;
 import hust.project.identityservice.usercase.GetUserUseCase;
@@ -30,6 +32,11 @@ public class UserService implements IUserService {
     @Override
     public UserEntity getDetailUser(Long userId) {
         return getUserUseCase.getDetailUser(userId);
+    }
+
+    @Override
+    public List<UserInfoResponse> getAllUserInfos(GetUserListRequest request) {
+        return getUserUseCase.getAllUserInfos(request);
     }
 
     @Override

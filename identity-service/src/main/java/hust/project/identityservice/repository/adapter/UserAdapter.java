@@ -2,6 +2,7 @@ package hust.project.identityservice.repository.adapter;
 
 import hust.project.identityservice.constants.ErrorCode;
 import hust.project.identityservice.entity.UserEntity;
+import hust.project.identityservice.entity.dto.request.GetUserListRequest;
 import hust.project.identityservice.entity.dto.request.GetUserRequest;
 import hust.project.identityservice.entity.dto.response.PageInfo;
 import hust.project.identityservice.exception.AppException;
@@ -48,6 +49,11 @@ public class UserAdapter implements IUserPort {
     public UserEntity getById(Long id) {
         return userMapper.toEntityFromModel(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND)));
+    }
+
+    @Override
+    public List<UserEntity> getAllUsers(GetUserListRequest request) {
+        return userMapper.toEntitiesFromModels(userRepository.findAll(UserSpecification.getAllUsers(request)));
     }
 
     @Override

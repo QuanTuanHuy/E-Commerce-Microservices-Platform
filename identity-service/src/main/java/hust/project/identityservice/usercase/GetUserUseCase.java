@@ -2,13 +2,16 @@ package hust.project.identityservice.usercase;
 
 import hust.project.identityservice.entity.RoleEntity;
 import hust.project.identityservice.entity.UserEntity;
+import hust.project.identityservice.entity.dto.request.GetUserListRequest;
 import hust.project.identityservice.entity.dto.request.GetUserRequest;
 import hust.project.identityservice.entity.dto.response.PageInfo;
+import hust.project.identityservice.entity.dto.response.UserInfoResponse;
 import hust.project.identityservice.port.IRolePort;
 import hust.project.identityservice.port.IUserPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -39,4 +42,24 @@ public class GetUserUseCase {
 
         return result;
     }
+
+    public List<UserInfoResponse> getAllUserInfos(GetUserListRequest request) {
+        List<UserEntity> users = userPort.getAllUsers(request);
+
+        if (CollectionUtils.isEmpty(users)) {
+            return List.of();
+        }
+
+        List<RoleEntity> roles = rolePort.getAll();
+
+
+        return users.stream().map(userEntity -> UserInfoResponse.builder()
+                .id(userEntity.getId())
+                .email(userEntity.getEmail())
+                .name(userEntity.getFirstName() + " " + userEntity.getLastName())
+                .role(roles.stream().filter(r -> r.getId().equals(userEntity.getRoleId())).findFirst().get().getName())
+                .build())
+                .toList();
+    }
+
 }
