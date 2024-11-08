@@ -1,4 +1,4 @@
-package hust.project.cartservice.entity.dto.request;
+package hust.project.orderservice.entity.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

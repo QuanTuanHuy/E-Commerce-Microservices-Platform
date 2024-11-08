@@ -36,13 +36,11 @@ public class CartItemController {
         return ResponseEntity.ok(new Resource(cartItemService.updateCartItems(requests)));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Resource> deleteCartItems(
-            @RequestParam(name = "product_ids") List<Long> productIds
+    @PostMapping("/adjust_or_delete")
+    public ResponseEntity<Resource> adjustOrDeleteCartItems(
+           @RequestBody List<DeleteCartItemRequest> requests
     ) {
-        cartItemService.deleteCartItems(DeleteCartItemRequest.builder()
-                        .productIds(productIds)
-                .build());
+        cartItemService.adjustOrDeleteCartItems(requests);
         return ResponseEntity.ok(new Resource(null));
     }
 }

@@ -38,7 +38,7 @@ public class CartItemService implements ICartItemService {
     }
 
     @Override
-    public void deleteCartItems(DeleteCartItemRequest request) {
-        deleteCartItemUseCase.deleteCartItems(request);
+    public void adjustOrDeleteCartItems(List<DeleteCartItemRequest> requests) {
+        deleteCartItemUseCase.adjustOrDeleteCartItems(requests);
     }
 }

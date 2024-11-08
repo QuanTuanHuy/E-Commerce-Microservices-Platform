@@ -24,6 +24,7 @@ public enum ErrorCode {
     CREATE_PRODUCT_FAILED(100016, "Create product failed", HttpStatus.BAD_REQUEST),
     GET_PRODUCT_FAILED(100017, "Get product failed", HttpStatus.NOT_FOUND),
     UPDATE_PRODUCT_FAILED(100018, "Update product failed", HttpStatus.BAD_REQUEST),
+    UPDATE_PRODUCT_QUANTITY_FAILED(100019, "Update product quantity failed", HttpStatus.BAD_REQUEST),
     DELETE_PRODUCT_FAILED(100019, "Delete product failed", HttpStatus.BAD_REQUEST),
     CREATE_PRODUCT_RELATED_FAILED(100020, "Create product related failed", HttpStatus.BAD_REQUEST),
     DELETE_PRODUCT_RELATED_FAILED(100021, "Delete product related failed", HttpStatus.BAD_REQUEST),

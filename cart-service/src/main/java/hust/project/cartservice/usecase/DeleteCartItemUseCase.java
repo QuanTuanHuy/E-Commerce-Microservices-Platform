@@ -10,8 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,15 +24,40 @@ import java.util.List;
 public class DeleteCartItemUseCase {
     private final ICartItemPort cartItemPort;
 
-    public void deleteCartItems(DeleteCartItemRequest request) {
+    public void adjustOrDeleteCartItems(List<DeleteCartItemRequest> requests) {
         Long customerId = AuthenticationUtils.getCurrentUserId();
 
-        List<CartItemEntity> cartItems = cartItemPort.getCartItemsByCustomerIdAndProductIds(customerId, request.getProductIds());
-        if (cartItems.size() != request.getProductIds().size()) {
-            log.error("[DeleteCartItemUseCase] Cart items not found");
+        List<Long> productIds = requests.stream().map(DeleteCartItemRequest::getProductId).distinct().toList();
+        if (productIds.size() != requests.size()) {
+            log.error("[DeleteCartItemUseCase] Duplicate product id in request");
             throw new AppException(ErrorCode.DELETE_CART_ITEM_FAILED);
         }
 
-        cartItemPort.deleteCartItemsByCustomerIdAndProductIds(customerId, request.getProductIds());
+        List<CartItemEntity> cartItems = cartItemPort.getCartItemsByCustomerIdAndProductIds(customerId, productIds);
+
+        var mapIdToCartItem = cartItems.stream()
+                .collect(Collectors.toMap(CartItemEntity::getProductId, Function.identity()));
+
+        List<CartItemEntity> adjustedCartItems = new ArrayList<>();
+        List<Long> deletedProductIds = new ArrayList<>();
+
+        requests.forEach(request -> {
+            CartItemEntity cartItem = mapIdToCartItem.getOrDefault(request.getProductId(), null);
+            if (cartItem != null) {
+                if (cartItem.getQuantity() > request.getQuantity()) {
+                    cartItem.setQuantity(cartItem.getQuantity() - request.getQuantity());
+                    adjustedCartItems.add(cartItem);
+                } else {
+                    deletedProductIds.add(request.getProductId());
+                }
+            }
+        });
+
+        if (!CollectionUtils.isEmpty(deletedProductIds)) {
+            cartItemPort.deleteCartItemsByCustomerIdAndProductIds(customerId, deletedProductIds);
+        }
+        if (!CollectionUtils.isEmpty(adjustedCartItems)) {
+            cartItemPort.saveAll(adjustedCartItems);
+        }
     }
 }
