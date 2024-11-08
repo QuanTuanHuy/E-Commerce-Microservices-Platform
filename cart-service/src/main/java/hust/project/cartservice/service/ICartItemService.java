@@ -14,5 +14,5 @@ public interface ICartItemService {
 
     List<CartItemEntity> updateCartItems(List<UpdateCartItemRequest> requests);
 
-    void deleteCartItems(DeleteCartItemRequest request);
+    void adjustOrDeleteCartItems(List<DeleteCartItemRequest> requests);
 }
