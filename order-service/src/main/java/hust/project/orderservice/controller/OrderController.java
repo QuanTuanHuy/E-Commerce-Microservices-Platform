@@ -1,9 +1,12 @@
 package hust.project.orderservice.controller;
 
 import hust.project.orderservice.entity.dto.request.CreateOrderRequest;
+import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
+import hust.project.orderservice.entity.dto.request.UpdateOrderStatusRequest;
 import hust.project.orderservice.entity.dto.response.Resource;
 import hust.project.orderservice.service.IOrderService;
+import hust.project.orderservice.utils.AuthenticationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +59,36 @@ public class OrderController {
                 .wardName(wardName)
                 .build();
         return ResponseEntity.ok(new Resource(orderService.getAllOrders(filter)));
+    }
+
+    @GetMapping("/my_orders")
+    public ResponseEntity<Resource> getMyOrders(
+            @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(name = "page_size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
+            @RequestParam(name = "order_statuses", required = false) List<String> orderStatuses,
+            @RequestParam(name = "product_name", required = false) String productName
+    ) {
+        var filter = GetMyOrderRequest.builder()
+                .page(page).pageSize(pageSize)
+                .orderStatuses(orderStatuses)
+                .productName(productName)
+                .build();
+        Long userId = AuthenticationUtils.getCurrentUserId();
+        return ResponseEntity.ok(new Resource(orderService.getMyOrders(userId, filter)));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Resource> updateOrderStatusOps(
+            @PathVariable Long id,
+            @RequestBody UpdateOrderStatusRequest request
+    ) {
+        return ResponseEntity.ok(new Resource(orderService.updateOrderStatus(id, request)));
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Resource> cancelOrderWeb(@PathVariable Long id) {
+        Long userId = AuthenticationUtils.getCurrentUserId();
+        orderService.cancelOrderWeb(id, userId);
+        return ResponseEntity.ok(new Resource(null));
     }
 }

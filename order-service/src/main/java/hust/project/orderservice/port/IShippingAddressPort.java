@@ -16,5 +16,5 @@ public interface IShippingAddressPort {
 
     List<ShippingAddressEntity> getShippingAddressesByIds(List<Long> ids);
 
-    void deleteShippingAddress(Long id);
+//    void deleteShippingAddress(Long id);
 }

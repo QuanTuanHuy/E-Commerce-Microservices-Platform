@@ -11,5 +11,5 @@ public interface IOrderItemPort {
 
     List<OrderItemEntity> getOrderItemsByOrderIds(List<Long> orderIds);
 
-    void deleteOrderItemsByOrderId(Long orderId);
+//    void deleteOrderItemsByOrderId(Long orderId);
 }

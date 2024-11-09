@@ -1,5 +1,6 @@
 package hust.project.orderservice.repository;
 
+import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.response.PageInfo;
 import hust.project.orderservice.model.OrderModel;
@@ -43,16 +44,8 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
             sql += "    AND sa.phone_number = '" + filter.getPhoneNumber() + "'\n";
         }
         if (!CollectionUtils.isEmpty(filter.getOrderStatuses())) {
-            List<String> orderStatuses = filter.getOrderStatuses();
-            StringBuilder orderStatusesStr = new StringBuilder();
-            for (int i = 0; i < orderStatuses.size(); i++) {
-                orderStatusesStr.append("'").append(orderStatuses.get(i)).append("'");
-                if (i < orderStatuses.size() - 1) {
-                    orderStatusesStr.append(", ");
-                }
-            }
 
-            sql += "    AND o.order_status IN (" + orderStatusesStr + ")\n";
+            sql += "    AND o.order_status IN (" + buildOderStatuses(filter.getOrderStatuses()) + ")\n";
         }
 
         if (StringUtils.hasText(filter.getProductName())) {
@@ -82,5 +75,48 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
                 .build();
 
         return Pair.of(pageInfo, orders);
+    }
+
+    @Override
+    public Pair<PageInfo, List<OrderModel>> getMyOrders(Long userId, GetMyOrderRequest filter) {
+        String sql =
+                "WITH T AS\n" +
+                "(\n" +
+                "\tSELECT id FROM orders WHERE customer_id = " + userId + "\n";
+
+        if (!CollectionUtils.isEmpty(filter.getOrderStatuses())) {
+            sql += "    AND order_status IN (" + buildOderStatuses(filter.getOrderStatuses()) + ")\n";
+        }
+        sql +=  ")\n" +
+                "SELECT * FROM orders\n" +
+                "WHERE id IN\n" +
+                "(\n" +
+                "\tSELECT DISTINCT(t.id) FROM T t JOIN order_items oi ON t.id = oi.order_id\n" +
+                "    WHERE oi.product_name LIKE '%" + filter.getProductName() +  "%'\n" +
+                ")";
+
+        Query query = entityManager.createNativeQuery(sql, OrderModel.class);
+
+        List<OrderModel> orders = query.getResultList();
+
+        PageInfo pageInfo = PageInfo.builder()
+                .pageSize((long) filter.getPageSize())
+                .totalRecord((long) orders.size())
+                .build();
+
+        return Pair.of(pageInfo, orders);
+
+    }
+
+
+    private StringBuilder buildOderStatuses(List<String> orderStatuses) {
+        StringBuilder orderStatusesStr = new StringBuilder();
+        for (int i = 0; i < orderStatuses.size(); i++) {
+            orderStatusesStr.append("'").append(orderStatuses.get(i)).append("'");
+            if (i < orderStatuses.size() - 1) {
+                orderStatusesStr.append(", ");
+            }
+        }
+        return orderStatusesStr;
     }
 }

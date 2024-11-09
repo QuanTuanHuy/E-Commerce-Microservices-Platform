@@ -3,6 +3,7 @@ package hust.project.orderservice.usecase;
 import hust.project.orderservice.entity.OrderEntity;
 import hust.project.orderservice.entity.OrderItemEntity;
 import hust.project.orderservice.entity.ShippingAddressEntity;
+import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.response.PageInfo;
 import hust.project.orderservice.port.IOrderItemPort;
@@ -36,6 +37,24 @@ public class GetOrderUseCase {
         var orders = result.getSecond();
 
 
+        setOrderItemsAndShippingAddress(orders);
+
+
+        return Pair.of(result.getFirst(), orders);
+    }
+
+    public Pair<PageInfo, List<OrderEntity>> getMyOrders(Long userId, GetMyOrderRequest request) {
+        var result = orderPort.getMyOrders(userId, request);
+        var orders = result.getSecond();
+
+
+        setOrderItemsAndShippingAddress(orders);
+
+
+        return Pair.of(result.getFirst(), orders);
+    }
+
+    private void setOrderItemsAndShippingAddress(List<OrderEntity> orders) {
         List<Long> orderIds = orders.stream().map(OrderEntity::getId).toList();
         List<OrderItemEntity> orderItems = orderItemPort.getOrderItemsByOrderIds(orderIds);
 
@@ -52,10 +71,6 @@ public class GetOrderUseCase {
                     .toList());
             order.setShippingAddress(mapIdToShippingAddress.getOrDefault(order.getShippingAddressId(), null));
         });
-
-
-        return Pair.of(result.getFirst(), orders);
     }
-
 
 }

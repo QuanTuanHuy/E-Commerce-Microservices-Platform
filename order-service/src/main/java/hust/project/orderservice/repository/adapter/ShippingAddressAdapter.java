@@ -64,13 +64,13 @@ public class ShippingAddressAdapter implements IShippingAddressPort {
         return ShippingAddressMapper.INSTANCE.toEntitiesFromModels(shippingAddressRepository.findByIdIn(ids));
     }
 
-    @Override
-    public void deleteShippingAddress(Long id) {
-        try {
-            shippingAddressRepository.deleteById(id);
-        } catch (Exception e) {
-            log.error("[ShippingAddressAdapter] delete shipping address failed, error: {}", e.getMessage());
-            throw new AppException(ErrorCode.DELETE_SHIPPING_ADDRESS_FAILED);
-        }
-    }
+//    @Override
+//    public void deleteShippingAddress(Long id) {
+//        try {
+//            shippingAddressRepository.deleteById(id);
+//        } catch (Exception e) {
+//            log.error("[ShippingAddressAdapter] delete shipping address failed, error: {}", e.getMessage());
+//            throw new AppException(ErrorCode.DELETE_SHIPPING_ADDRESS_FAILED);
+//        }
+//    }
 }

@@ -15,9 +15,11 @@ public interface IOrderService {
 
     OrderEntity getDetailOrder(Long id);
 
-    List<OrderEntity> getMyOrders(GetMyOrderRequest request);
+    Pair<PageInfo, List<OrderEntity>> getMyOrders(Long userId, GetMyOrderRequest request);
 
     Pair<PageInfo, List<OrderEntity>> getAllOrders(GetOrderRequest filter);
 
     OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request);
+
+    void cancelOrderWeb(Long orderId, Long userId);
 }

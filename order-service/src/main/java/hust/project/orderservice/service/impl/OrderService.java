@@ -7,8 +7,10 @@ import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.request.UpdateOrderStatusRequest;
 import hust.project.orderservice.entity.dto.response.PageInfo;
 import hust.project.orderservice.service.IOrderService;
+import hust.project.orderservice.usecase.CancelOrderUseCase;
 import hust.project.orderservice.usecase.CreateOrderUseCase;
 import hust.project.orderservice.usecase.GetOrderUseCase;
+import hust.project.orderservice.usecase.UpdateOrderUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.List;
 public class OrderService implements IOrderService {
     private final CreateOrderUseCase createOrderUseCase;
     private final GetOrderUseCase getOrderUseCase;
+    private final UpdateOrderUseCase updateOrderUseCase;
+    private final CancelOrderUseCase cancelOrderUseCase;
 
     @Override
     public OrderEntity createOrder(CreateOrderRequest request) {
@@ -32,9 +36,10 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<OrderEntity> getMyOrders(GetMyOrderRequest request) {
-        return List.of();
+    public Pair<PageInfo, List<OrderEntity>> getMyOrders(Long userId, GetMyOrderRequest request) {
+        return getOrderUseCase.getMyOrders(userId, request);
     }
+
 
     @Override
     public Pair<PageInfo, List<OrderEntity>> getAllOrders(GetOrderRequest filter) {
@@ -43,7 +48,12 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
-        return null;
+        return updateOrderUseCase.updateOrderStatus(id, request);
+    }
+
+    @Override
+    public void cancelOrderWeb(Long orderId, Long userId) {
+        cancelOrderUseCase.cancelOrderWeb(orderId, userId);
     }
 
 }

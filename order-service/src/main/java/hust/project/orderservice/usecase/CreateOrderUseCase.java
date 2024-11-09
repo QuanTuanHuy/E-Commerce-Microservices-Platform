@@ -1,5 +1,6 @@
 package hust.project.orderservice.usecase;
 
+import hust.project.orderservice.constant.OrderStatus;
 import hust.project.orderservice.entity.OrderEntity;
 import hust.project.orderservice.entity.OrderItemEntity;
 import hust.project.orderservice.entity.ShippingAddressEntity;
@@ -37,6 +38,7 @@ public class CreateOrderUseCase {
         shippingAddress = shippingAddressPort.save(shippingAddress);
         order.setShippingAddressId(shippingAddress.getId());
         order.setShippingAddress(shippingAddress);
+        order.setOrderStatus(OrderStatus.PENDING.name());
 
 
         order = orderPort.save(order);

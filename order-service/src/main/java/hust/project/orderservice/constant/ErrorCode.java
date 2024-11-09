@@ -14,6 +14,7 @@ public enum ErrorCode {
     GET_ORDER_FAILED(100006, "Get order failed", HttpStatus.NOT_FOUND),
     UPDATE_ORDER_FAILED(100007, "Update order failed", HttpStatus.INTERNAL_SERVER_ERROR),
     DELETE_ORDER_FAILED(100008, "Delete order failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    CANCEL_ORDER_FAILED(100009, "Cancel order failed", HttpStatus.INTERNAL_SERVER_ERROR),
     CREATE_SHIPPING_ADDRESS_FAILED(100009, "Create shipping address failed", HttpStatus.INTERNAL_SERVER_ERROR),
     GET_SHIPPING_ADDRESS_FAILED(100010, "Get shipping address failed", HttpStatus.NOT_FOUND),
     UPDATE_SHIPPING_ADDRESS_FAILED(100011, "Update shipping address failed", HttpStatus.INTERNAL_SERVER_ERROR),

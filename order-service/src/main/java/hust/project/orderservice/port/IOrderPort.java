@@ -1,6 +1,7 @@
 package hust.project.orderservice.port;
 
 import hust.project.orderservice.entity.OrderEntity;
+import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.response.PageInfo;
 import org.springframework.data.util.Pair;
@@ -12,7 +13,7 @@ public interface IOrderPort {
 
     Pair<PageInfo, List<OrderEntity>> getAllOrders(GetOrderRequest filter);
 
-    OrderEntity getOrderById(Long id);
+    Pair<PageInfo, List<OrderEntity>> getMyOrders(Long userId, GetMyOrderRequest filter);
 
-    void deleteOrder(Long id);
+    OrderEntity getOrderById(Long id);
 }

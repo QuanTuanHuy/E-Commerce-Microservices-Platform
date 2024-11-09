@@ -33,6 +33,9 @@ public class OrderModel extends AuditTable {
     @Column(name = "discount_amount")
     private Double discountAmount;
 
+    @Column(name = "number_of_items")
+    private Long numberOfItems;
+
     @Column(name = "total_price")
     private Double totalPrice;
 

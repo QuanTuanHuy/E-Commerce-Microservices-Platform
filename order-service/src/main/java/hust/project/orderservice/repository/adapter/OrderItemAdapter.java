@@ -40,13 +40,13 @@ public class OrderItemAdapter implements IOrderItemPort {
         return OrderItemMapper.INSTANCE.toEntitiesFromModels(orderItemRepository.findByOrderIdIn(orderIds));
     }
 
-    @Override
-    public void deleteOrderItemsByOrderId(Long orderId) {
-        try {
-            orderItemRepository.deleteByOrderId(orderId);
-        } catch (Exception e) {
-            log.error("[OrderItemAdapter] delete orderItem failed, err: {}", e.getMessage());
-            throw new AppException(ErrorCode.DELETE_ORDER_ITEM_FAILED);
-        }
-    }
+//    @Override
+//    public void deleteOrderItemsByOrderId(Long orderId) {
+//        try {
+//            orderItemRepository.deleteByOrderId(orderId);
+//        } catch (Exception e) {
+//            log.error("[OrderItemAdapter] delete orderItem failed, err: {}", e.getMessage());
+//            throw new AppException(ErrorCode.DELETE_ORDER_ITEM_FAILED);
+//        }
+//    }
 }
