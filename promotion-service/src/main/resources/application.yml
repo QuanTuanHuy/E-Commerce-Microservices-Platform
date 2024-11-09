@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: promotion-service
+
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3308/promotion_service
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+resilience4j:
+  retry:
+    instances:
+      restApi:
+        max-attempts: 3
+        wait-duration:
+          seconds: 1
+
+  circuitbreaker:
+    instances:
+      restCircuitBreaker:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 10
+        permitted-number-of-calls-in-half-open-state: 3
+
+app:
+  jwt:
+    signer-key: 1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij
+    valid-duration: 360000
+
+  services:
+    product-service:
+      url: http://localhost:8082
+
+
+server:
+  port: 8087
+
