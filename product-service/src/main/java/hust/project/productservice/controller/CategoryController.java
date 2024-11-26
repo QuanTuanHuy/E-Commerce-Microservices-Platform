@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/categories")
@@ -25,6 +27,13 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getDetailCategory(@PathVariable Long id) {
         return ResponseEntity.ok(new Resource(categoryService.getDetailCategory(id)));
+    }
+
+    @GetMapping("/by_ids")
+    public ResponseEntity<Resource> getCategoriesByIds(
+            @RequestParam(name = "ids") List<Long> ids
+    ) {
+        return ResponseEntity.ok(new Resource(categoryService.getCategoriesByIds(ids)));
     }
 
     @GetMapping

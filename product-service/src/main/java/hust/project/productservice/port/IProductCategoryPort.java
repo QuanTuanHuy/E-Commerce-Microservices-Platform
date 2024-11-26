@@ -11,5 +11,7 @@ public interface IProductCategoryPort {
 
     List<ProductCategoryEntity> getProductCategoriesByProductIds(List<Long> productIds);
 
+    List<ProductCategoryEntity> getProductCategoriesByCategoryId(Long categoryId);
+
     void deleteProductCategoriesByIds(List<Long> ids);
 }

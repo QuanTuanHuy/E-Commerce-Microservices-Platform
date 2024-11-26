@@ -4,6 +4,7 @@ import hust.project.productservice.entity.BrandEntity;
 import hust.project.productservice.entity.dto.request.CreateBrandRequest;
 import hust.project.productservice.entity.dto.request.GetBrandRequest;
 import hust.project.productservice.entity.dto.request.UpdateBrandRequest;
+import hust.project.productservice.entity.dto.response.BrandGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.service.IBrandService;
 import hust.project.productservice.usecase.CreateBrandUseCase;
@@ -42,6 +43,11 @@ public class BrandService implements IBrandService {
     @Override
     public BrandEntity updateBrand(Long id, UpdateBrandRequest request) {
         return updateBrandUseCase.updateBrand(id, request);
+    }
+
+    @Override
+    public List<BrandGetModel> getBrandsByIds(List<Long> ids) {
+        return getBrandUseCase.getBrandsByIds(ids);
     }
 
     @Override

@@ -4,6 +4,7 @@ import hust.project.productservice.entity.BrandEntity;
 import hust.project.productservice.entity.dto.request.CreateBrandRequest;
 import hust.project.productservice.entity.dto.request.GetBrandRequest;
 import hust.project.productservice.entity.dto.request.UpdateBrandRequest;
+import hust.project.productservice.entity.dto.response.BrandGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import org.springframework.data.util.Pair;
 
@@ -17,6 +18,8 @@ public interface IBrandService {
     Pair<PageInfo, List<BrandEntity>> getAllBrands(GetBrandRequest filter);
 
     BrandEntity updateBrand(Long id, UpdateBrandRequest request);
+
+    List<BrandGetModel> getBrandsByIds(List<Long> ids);
 
     void deleteBrand(Long id);
 }

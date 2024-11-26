@@ -4,6 +4,7 @@ import hust.project.productservice.entity.CategoryEntity;
 import hust.project.productservice.entity.dto.request.CreateCategoryRequest;
 import hust.project.productservice.entity.dto.request.GetCategoryRequest;
 import hust.project.productservice.entity.dto.request.UpdateCategoryRequest;
+import hust.project.productservice.entity.dto.response.CategoryGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.service.ICategoryService;
 import hust.project.productservice.usecase.CreateCategoryUseCase;
@@ -35,6 +36,11 @@ public class CategoryService implements ICategoryService {
     @Override
     public Pair<PageInfo, List<CategoryEntity>> getAllCategories(GetCategoryRequest filter) {
         return getCategoryUseCase.getAllCategories(filter);
+    }
+
+    @Override
+    public List<CategoryGetModel> getCategoriesByIds(List<Long> ids) {
+        return getCategoryUseCase.getCategoriesByIds(ids);
     }
 
     @Override

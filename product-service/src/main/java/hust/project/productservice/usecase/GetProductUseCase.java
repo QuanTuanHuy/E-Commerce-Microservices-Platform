@@ -5,7 +5,9 @@ import hust.project.productservice.entity.*;
 import hust.project.productservice.entity.dto.request.GetProductRequest;
 import hust.project.productservice.entity.dto.request.GetProductListRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.entity.dto.response.ProductGetModel;
 import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
+import hust.project.productservice.mapper.ProductMapper;
 import hust.project.productservice.port.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
@@ -129,5 +131,33 @@ public class GetProductUseCase {
                         .build())
                 .toList();
     }
+
+    public List<ProductGetModel> getProductsByIds(List<Long> ids) {
+        return productPort.getProductsByIds(ids).stream()
+                .map(ProductMapper.INSTANCE::toGetModelFromEntity)
+                .toList();
+    }
+
+    public List<ProductGetModel> getProductsByCategoryId(Long categoryId) {
+        try {
+            categoryPort.getCategoryById(categoryId);
+        } catch (Exception e) {
+            return List.of();
+        }
+
+        List<Long> productIds = productCategoryPort.getProductCategoriesByCategoryId(categoryId)
+                .stream()
+                .map(ProductCategoryEntity::getProductId)
+                .toList();
+
+        return getProductsByIds(productIds);
+    }
+
+    public List<ProductGetModel> getProductsByBrandId(Long brandId) {
+        return productPort.getProductsByBrandId(brandId).stream()
+                .map(ProductMapper.INSTANCE::toGetModelFromEntity)
+                .toList();
+    }
+
 
 }

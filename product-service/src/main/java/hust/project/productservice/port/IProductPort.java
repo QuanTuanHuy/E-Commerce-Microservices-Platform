@@ -21,6 +21,8 @@ public interface IProductPort {
 
     List<ProductEntity> getProductsByParentId(Long parentId);
 
+    List<ProductEntity> getProductsByBrandId(Long brandId);
+
     Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter);
 
 }

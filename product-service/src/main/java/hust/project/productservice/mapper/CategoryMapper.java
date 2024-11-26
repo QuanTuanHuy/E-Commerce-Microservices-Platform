@@ -2,6 +2,7 @@ package hust.project.productservice.mapper;
 
 import hust.project.productservice.entity.CategoryEntity;
 import hust.project.productservice.entity.dto.request.CreateCategoryRequest;
+import hust.project.productservice.entity.dto.response.CategoryGetModel;
 import hust.project.productservice.model.CategoryModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +22,6 @@ public abstract class CategoryMapper {
 
     @Mapping(target = "image", ignore = true)
     public abstract CategoryEntity toEntityFromRequest(CreateCategoryRequest request);
+
+    public abstract CategoryGetModel toGetModelFromEntity(CategoryEntity entity);
 }

@@ -46,6 +46,11 @@ public class ProductCategoryAdapter implements IProductCategoryPort {
     }
 
     @Override
+    public List<ProductCategoryEntity> getProductCategoriesByCategoryId(Long categoryId) {
+        return ProductCategoryMapper.INSTANCE.toEntitiesFromModels(productCategoryRepository.findByCategoryId(categoryId));
+    }
+
+    @Override
     public void deleteProductCategoriesByIds(List<Long> ids) {
         try {
             productCategoryRepository.deleteByIdIn(ids);

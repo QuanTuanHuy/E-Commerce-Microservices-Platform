@@ -2,6 +2,7 @@ package hust.project.productservice.mapper;
 
 import hust.project.productservice.entity.BrandEntity;
 import hust.project.productservice.entity.dto.request.CreateBrandRequest;
+import hust.project.productservice.entity.dto.response.BrandGetModel;
 import hust.project.productservice.model.BrandModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +22,6 @@ public abstract class BrandMapper {
     public abstract BrandModel toModelFromEntity(BrandEntity entity);
 
     public abstract List<BrandEntity> toEntitiesFromModels(List<BrandModel> models);
+
+    public abstract BrandGetModel toGetModelFromEntity(BrandEntity entity);
 }

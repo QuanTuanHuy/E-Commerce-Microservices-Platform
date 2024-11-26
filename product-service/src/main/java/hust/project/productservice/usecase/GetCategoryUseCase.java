@@ -3,7 +3,9 @@ package hust.project.productservice.usecase;
 import hust.project.productservice.entity.CategoryEntity;
 import hust.project.productservice.entity.ImageEntity;
 import hust.project.productservice.entity.dto.request.GetCategoryRequest;
+import hust.project.productservice.entity.dto.response.CategoryGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.mapper.CategoryMapper;
 import hust.project.productservice.port.ICategoryPort;
 import hust.project.productservice.port.IImagePort;
 import lombok.RequiredArgsConstructor;
@@ -56,5 +58,11 @@ public class GetCategoryUseCase {
         });
 
         return result;
+    }
+
+    public List<CategoryGetModel> getCategoriesByIds(List<Long> ids) {
+        return categoryPort.getCategoriesByIds(ids).stream()
+                .map(CategoryMapper.INSTANCE::toGetModelFromEntity)
+                .toList();
     }
 }

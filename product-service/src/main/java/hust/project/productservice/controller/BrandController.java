@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/brands")
@@ -45,6 +47,13 @@ public class BrandController {
                 .build();
 
         return ResponseEntity.ok(new Resource(brandService.getAllBrands(filter)));
+    }
+
+    @GetMapping("/by_ids")
+    public ResponseEntity<Resource> getBrandsByIds(
+            @RequestParam(name = "ids") List<Long> ids
+    ) {
+        return ResponseEntity.ok(new Resource(brandService.getBrandsByIds(ids)));
     }
 
     @PutMapping("/{id}")

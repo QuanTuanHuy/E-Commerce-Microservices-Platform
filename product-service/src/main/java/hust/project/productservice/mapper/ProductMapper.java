@@ -2,6 +2,7 @@ package hust.project.productservice.mapper;
 
 import hust.project.productservice.entity.ProductEntity;
 import hust.project.productservice.entity.dto.request.CreateProductRequest;
+import hust.project.productservice.entity.dto.response.ProductGetModel;
 import hust.project.productservice.model.ProductModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,4 +25,6 @@ public abstract class ProductMapper {
     public abstract List<ProductEntity> toEntitiesFromModels(List<ProductModel> models);
 
     public abstract List<ProductModel> toModelsFromEntities(List<ProductEntity> entities);
+
+    public abstract ProductGetModel toGetModelFromEntity(ProductEntity entity);
 }

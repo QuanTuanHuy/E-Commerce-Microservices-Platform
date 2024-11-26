@@ -73,6 +73,11 @@ public class ProductAdapter implements IProductPort {
     }
 
     @Override
+    public List<ProductEntity> getProductsByBrandId(Long brandId) {
+        return ProductMapper.INSTANCE.toEntitiesFromModels(productRepository.findByBrandId(brandId));
+    }
+
+    @Override
     public Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter) {
         var result = productRepository.getAllProducts(filter);
 

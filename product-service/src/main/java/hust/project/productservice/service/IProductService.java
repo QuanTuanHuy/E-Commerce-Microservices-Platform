@@ -6,6 +6,7 @@ import hust.project.productservice.entity.dto.request.GetProductRequest;
 import hust.project.productservice.entity.dto.request.GetProductListRequest;
 import hust.project.productservice.entity.dto.request.UpdateProductQuantityRequest;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.entity.dto.response.ProductGetModel;
 import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
 import org.springframework.data.util.Pair;
 
@@ -19,6 +20,12 @@ public interface IProductService {
     Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter);
 
     List<ProductThumbnailResponse> getAllProductThumbnails(GetProductListRequest filter);
+
+    List<ProductGetModel> getProductsByIds(List<Long> ids);
+
+    List<ProductGetModel> getProductsByCategoryId(Long categoryId);
+
+    List<ProductGetModel> getProductsByBrandId(Long brandId);
 
     void updateProductQuantity(List<UpdateProductQuantityRequest> requests);
 

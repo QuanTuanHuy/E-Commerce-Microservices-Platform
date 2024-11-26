@@ -4,6 +4,7 @@ import hust.project.productservice.entity.CategoryEntity;
 import hust.project.productservice.entity.dto.request.CreateCategoryRequest;
 import hust.project.productservice.entity.dto.request.GetCategoryRequest;
 import hust.project.productservice.entity.dto.request.UpdateCategoryRequest;
+import hust.project.productservice.entity.dto.response.CategoryGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import org.springframework.data.util.Pair;
 
@@ -15,6 +16,8 @@ public interface ICategoryService {
     CategoryEntity getDetailCategory(Long id);
 
     Pair<PageInfo, List<CategoryEntity>> getAllCategories(GetCategoryRequest filter);
+
+    List<CategoryGetModel> getCategoriesByIds(List<Long> ids);
 
     CategoryEntity updateCategory(Long id, UpdateCategoryRequest request);
 }

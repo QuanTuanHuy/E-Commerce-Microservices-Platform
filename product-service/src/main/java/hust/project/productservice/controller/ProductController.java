@@ -29,6 +29,27 @@ public class ProductController {
         return ResponseEntity.ok(new Resource(productService.getDetailProduct(id)));
     }
 
+    @GetMapping("/by_ids")
+    public ResponseEntity<Resource> getProductsByIds(
+            @RequestParam(name = "ids") List<Long> ids
+    ) {
+        return ResponseEntity.ok(new Resource(productService.getProductsByIds(ids)));
+    }
+
+    @GetMapping("/by_brand_id")
+    public ResponseEntity<Resource> getProductsByBrandId(
+            @RequestParam(name = "brand_id") Long brandId
+    ) {
+        return ResponseEntity.ok(new Resource(productService.getProductsByBrandId(brandId)));
+    }
+
+    @GetMapping("/by_category_id")
+    public ResponseEntity<Resource> getProductsByCategoryId(
+            @RequestParam(name = "category_id") Long categoryId
+    ) {
+        return ResponseEntity.ok(new Resource(productService.getProductsByCategoryId(categoryId)));
+    }
+
     @GetMapping
     public ResponseEntity<Resource> getAllProducts(
             @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) Long page,

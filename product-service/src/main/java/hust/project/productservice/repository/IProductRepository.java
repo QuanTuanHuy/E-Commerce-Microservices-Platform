@@ -10,4 +10,6 @@ public interface IProductRepository extends IBaseRepository<ProductModel>, Custo
     List<ProductModel> findByIdIn(List<Long> ids);
 
     List<ProductModel> findByParentId(Long parentId);
+
+    List<ProductModel> findByBrandId(Long brandId);
 }

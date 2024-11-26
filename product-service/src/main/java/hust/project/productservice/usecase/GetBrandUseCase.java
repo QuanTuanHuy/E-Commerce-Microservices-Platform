@@ -3,7 +3,9 @@ package hust.project.productservice.usecase;
 import hust.project.productservice.entity.BrandEntity;
 import hust.project.productservice.entity.ImageEntity;
 import hust.project.productservice.entity.dto.request.GetBrandRequest;
+import hust.project.productservice.entity.dto.response.BrandGetModel;
 import hust.project.productservice.entity.dto.response.PageInfo;
+import hust.project.productservice.mapper.BrandMapper;
 import hust.project.productservice.port.IBrandPort;
 import hust.project.productservice.port.IImagePort;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +59,12 @@ public class GetBrandUseCase {
         }
 
         return result;
+    }
+
+    public List<BrandGetModel> getBrandsByIds(List<Long> ids) {
+        return brandPort.getBrandsByIds(ids).stream()
+                .map(BrandMapper.INSTANCE::toGetModelFromEntity)
+                .toList();
     }
 
 }
