@@ -13,5 +13,7 @@ public interface IProductCategoryPort {
 
     List<ProductCategoryEntity> getProductCategoriesByCategoryId(Long categoryId);
 
+    List<ProductCategoryEntity> getProductCategoriesByCategoriesIds(List<Long> categoryIds);
+
     void deleteProductCategoriesByIds(List<Long> ids);
 }

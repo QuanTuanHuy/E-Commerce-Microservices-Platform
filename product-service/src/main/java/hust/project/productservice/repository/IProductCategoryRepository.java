@@ -13,5 +13,7 @@ public interface IProductCategoryRepository extends IBaseRepository<ProductCateg
 
     List<ProductCategoryModel> findByCategoryId(Long categoryId);
 
+    List<ProductCategoryModel> findByCategoryIdIn(List<Long> categoryIds);
+
     void deleteByIdIn(List<Long> ids);
 }

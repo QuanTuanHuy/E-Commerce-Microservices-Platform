@@ -38,16 +38,16 @@ public class ProductController {
 
     @GetMapping("/by_brand_id")
     public ResponseEntity<Resource> getProductsByBrandId(
-            @RequestParam(name = "brand_id") Long brandId
+            @RequestParam(name = "brand_ids") List<Long> brandIds
     ) {
-        return ResponseEntity.ok(new Resource(productService.getProductsByBrandId(brandId)));
+        return ResponseEntity.ok(new Resource(productService.getProductByBrandIds(brandIds)));
     }
 
     @GetMapping("/by_category_id")
     public ResponseEntity<Resource> getProductsByCategoryId(
-            @RequestParam(name = "category_id") Long categoryId
+            @RequestParam(name = "category_ids") List<Long> categoryIds
     ) {
-        return ResponseEntity.ok(new Resource(productService.getProductsByCategoryId(categoryId)));
+        return ResponseEntity.ok(new Resource(productService.getProductsByCategoryIds(categoryIds)));
     }
 
     @GetMapping

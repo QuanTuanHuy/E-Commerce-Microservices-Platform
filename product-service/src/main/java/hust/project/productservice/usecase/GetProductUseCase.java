@@ -138,26 +138,19 @@ public class GetProductUseCase {
                 .toList();
     }
 
-    public List<ProductGetModel> getProductsByCategoryId(Long categoryId) {
-        try {
-            categoryPort.getCategoryById(categoryId);
-        } catch (Exception e) {
-            return List.of();
-        }
-
-        List<Long> productIds = productCategoryPort.getProductCategoriesByCategoryId(categoryId)
-                .stream()
+    public List<ProductGetModel> getProductsByCategoryIds(List<Long> categoryIds) {
+        List<Long> productIds = productCategoryPort.getProductCategoriesByCategoriesIds(categoryIds).stream()
                 .map(ProductCategoryEntity::getProductId)
-                .toList();
+                .distinct().toList();
+
 
         return getProductsByIds(productIds);
     }
 
-    public List<ProductGetModel> getProductsByBrandId(Long brandId) {
-        return productPort.getProductsByBrandId(brandId).stream()
+    public List<ProductGetModel> getProductsByBrandIds(List<Long> brandIds) {
+        return productPort.getProductsByBrandIds(brandIds).stream()
                 .map(ProductMapper.INSTANCE::toGetModelFromEntity)
                 .toList();
     }
-
 
 }

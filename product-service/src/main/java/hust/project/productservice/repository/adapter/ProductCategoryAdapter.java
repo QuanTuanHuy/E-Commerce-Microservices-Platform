@@ -19,7 +19,6 @@ import java.util.List;
 public class ProductCategoryAdapter implements IProductCategoryPort {
     private final IProductCategoryRepository productCategoryRepository;
 
-
     @Override
     public List<ProductCategoryEntity> saveAll(List<ProductCategoryEntity> productCategoryEntities) {
         try {
@@ -48,6 +47,11 @@ public class ProductCategoryAdapter implements IProductCategoryPort {
     @Override
     public List<ProductCategoryEntity> getProductCategoriesByCategoryId(Long categoryId) {
         return ProductCategoryMapper.INSTANCE.toEntitiesFromModels(productCategoryRepository.findByCategoryId(categoryId));
+    }
+
+    @Override
+    public List<ProductCategoryEntity> getProductCategoriesByCategoriesIds(List<Long> categoryIds) {
+        return ProductCategoryMapper.INSTANCE.toEntitiesFromModels(productCategoryRepository.findByCategoryIdIn(categoryIds));
     }
 
     @Override

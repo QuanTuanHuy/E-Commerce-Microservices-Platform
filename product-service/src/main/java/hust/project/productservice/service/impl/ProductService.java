@@ -53,13 +53,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductGetModel> getProductsByCategoryId(Long categoryId) {
-        return getProductUseCase.getProductsByCategoryId(categoryId);
+    public List<ProductGetModel> getProductsByCategoryIds(List<Long> categoryIds) {
+        return getProductUseCase.getProductsByCategoryIds(categoryIds);
     }
 
     @Override
-    public List<ProductGetModel> getProductsByBrandId(Long brandId) {
-        return getProductUseCase.getProductsByBrandId(brandId);
+    public List<ProductGetModel> getProductByBrandIds(List<Long> brandIds) {
+        return getProductUseCase.getProductsByBrandIds(brandIds);
     }
 
     @Override

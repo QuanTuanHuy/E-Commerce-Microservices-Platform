@@ -23,9 +23,9 @@ public interface IProductService {
 
     List<ProductGetModel> getProductsByIds(List<Long> ids);
 
-    List<ProductGetModel> getProductsByCategoryId(Long categoryId);
+    List<ProductGetModel> getProductsByCategoryIds(List<Long> categoryIds);
 
-    List<ProductGetModel> getProductsByBrandId(Long brandId);
+    List<ProductGetModel> getProductByBrandIds(List<Long> brandIds);
 
     void updateProductQuantity(List<UpdateProductQuantityRequest> requests);
 

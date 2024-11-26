@@ -1,5 +1,6 @@
 package hust.project.orderservice.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hust.project.orderservice.entity.dto.request.CreateOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,8 +40,8 @@ public class OrderController {
             @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) Integer page,
             @RequestParam(name = "page_size", defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize,
             @RequestParam(name = "order_statuses", required = false) List<String> orderStatuses,
-            @RequestParam(name = "created_from", required = false) Instant createdFrom,
-            @RequestParam(name = "created_to", required = false) Instant createdTo,
+            @RequestParam(name = "created_from", required = false) @JsonFormat(pattern = "yyyy-MM-dd") Date createdFrom,
+            @RequestParam(name = "created_to", required = false) @JsonFormat(pattern = "yyyy-MM-dd") Date createdTo,
             @RequestParam(name = "product_name", required = false) String productName,
             @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "phone_number", required = false) String phoneNumber,
@@ -47,10 +49,13 @@ public class OrderController {
             @RequestParam(name = "district_name", required = false) String districtName,
             @RequestParam(name = "ward_name", required = false) String wardName
     ) {
+        Instant createdFromInstant = createdFrom != null ? createdFrom.toInstant() : null;
+        Instant createdToInstant = createdTo != null ? createdTo.toInstant() : null;
+
         var filter = GetOrderRequest.builder()
                 .page(page).pageSize(pageSize)
                 .orderStatuses(orderStatuses)
-                .createdFrom(createdFrom).createdTo(createdTo)
+                .createdFrom(createdFromInstant).createdTo(createdToInstant)
                 .productName(productName)
                 .email(email)
                 .phoneNumber(phoneNumber)

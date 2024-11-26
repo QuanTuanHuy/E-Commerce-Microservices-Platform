@@ -40,7 +40,7 @@ public class UpdateBrandUseCase {
                                 .entityType(ImageType.BRAND.name())
                                 .image(request.getImage())
                         .build());
-                brand.setImageId(image.getId());
+                brand.setImage(image);
             }
         } else {
             if (brand.getImageId() != null) {
