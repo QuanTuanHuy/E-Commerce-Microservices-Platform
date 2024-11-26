@@ -9,5 +9,7 @@ import java.util.List;
 public interface IProductRelatedRepository extends IBaseRepository<ProductRelatedModel> {
     List<ProductRelatedModel> findByProductId(Long productId);
 
+    void deleteByIdIn(List<Long> ids);
+
     void deleteByProductId(Long productId);
 }

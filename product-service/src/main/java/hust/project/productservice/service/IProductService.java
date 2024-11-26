@@ -1,10 +1,7 @@
 package hust.project.productservice.service;
 
 import hust.project.productservice.entity.ProductEntity;
-import hust.project.productservice.entity.dto.request.CreateProductRequest;
-import hust.project.productservice.entity.dto.request.GetProductRequest;
-import hust.project.productservice.entity.dto.request.GetProductListRequest;
-import hust.project.productservice.entity.dto.request.UpdateProductQuantityRequest;
+import hust.project.productservice.entity.dto.request.*;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.entity.dto.response.ProductGetModel;
 import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
@@ -26,6 +23,8 @@ public interface IProductService {
     List<ProductGetModel> getProductsByCategoryIds(List<Long> categoryIds);
 
     List<ProductGetModel> getProductByBrandIds(List<Long> brandIds);
+
+    ProductEntity updateProduct(Long id, UpdateProductRequest request);
 
     void updateProductQuantity(List<UpdateProductQuantityRequest> requests);
 

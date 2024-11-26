@@ -40,6 +40,16 @@ public class ProductRelatedAdapter implements IProductRelatedPort {
     }
 
     @Override
+    public void deleteProductRelatedByIds(List<Long> ids) {
+        try {
+            productRelatedRepository.deleteByIdIn(ids);
+        } catch (Exception e) {
+            log.error("[ProductRelatedAdapter] delete product related failed, err: {}", e.getMessage());
+            throw new AppException(ErrorCode.DELETE_PRODUCT_RELATED_FAILED);
+        }
+    }
+
+    @Override
     public void deleteProductRelatedByProductId(Long productId) {
         try {
             productRelatedRepository.deleteByProductId(productId);

@@ -1,10 +1,7 @@
 package hust.project.productservice.service.impl;
 
 import hust.project.productservice.entity.ProductEntity;
-import hust.project.productservice.entity.dto.request.CreateProductRequest;
-import hust.project.productservice.entity.dto.request.GetProductRequest;
-import hust.project.productservice.entity.dto.request.GetProductListRequest;
-import hust.project.productservice.entity.dto.request.UpdateProductQuantityRequest;
+import hust.project.productservice.entity.dto.request.*;
 import hust.project.productservice.entity.dto.response.PageInfo;
 import hust.project.productservice.entity.dto.response.ProductGetModel;
 import hust.project.productservice.entity.dto.response.ProductThumbnailResponse;
@@ -60,6 +57,11 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductGetModel> getProductByBrandIds(List<Long> brandIds) {
         return getProductUseCase.getProductsByBrandIds(brandIds);
+    }
+
+    @Override
+    public ProductEntity updateProduct(Long id, UpdateProductRequest request) {
+        return updateProductUseCase.updateProduct(id, request);
     }
 
     @Override

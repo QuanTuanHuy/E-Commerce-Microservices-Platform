@@ -29,13 +29,10 @@ public class CreateProductUseCase {
 
     @Transactional
     public ProductEntity createProduct(CreateProductRequest request) {
-        // check brand, parent product, category, related product exist
+        // check brand, category, related product exist
+        BrandEntity brand = null;
         if (request.getBrandId() != null) {
-            brandPort.getBrandById(request.getBrandId());
-        }
-
-        if (request.getParentId() != null) {
-            productPort.getProductById(request.getParentId());
+            brand = brandPort.getBrandById(request.getBrandId());
         }
 
         List<CategoryEntity> categories = null;
@@ -63,6 +60,8 @@ public class CreateProductUseCase {
         ProductEntity product = ProductMapper.INSTANCE.toEntityFromRequest(request);
         product.setIsHasOptions(!CollectionUtils.isEmpty(request.getProductVariants()));
         ProductEntity savedProduct = productPort.save(product);
+
+        savedProduct.setBrand(brand);
 
 
         // build product image

@@ -1,15 +1,15 @@
 package hust.project.productservice.entity.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
-public class CreateProductRequest {
+public class UpdateProductRequest {
     @NotBlank
     private String name;
 
@@ -22,20 +22,16 @@ public class CreateProductRequest {
 
     private Boolean isPublished;
 
-    @Min(1L)
-    private Long stockQuantity;
-
     private Long brandId;
 
     private String thumbnailImage;
 
 
+    private Set<Long> categoryIds;
 
-    private List<Long> categoryIds;
+    private Set<String> images;
 
-    private List<String> images;
+    private Set<Long> relatedProductIds;
 
-    private List<Long> productRelatedIds;
-
-    private List<CreateProductVariationRequest> productVariants;
+    private List<UpdateProductVariationRequest> productVariants;
 }

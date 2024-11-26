@@ -9,5 +9,7 @@ public interface IProductRelatedPort {
 
     List<ProductRelatedEntity> getProductRelatedByProductId(Long productId);
 
+    void deleteProductRelatedByIds(List<Long> ids);
+
     void deleteProductRelatedByProductId(Long productId);
 }

@@ -102,11 +102,11 @@ public class ProductController {
         return ResponseEntity.ok(new Resource(null));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Resource> updateProduct(
-//            @PathVariable Long id,
-//            @RequestBody UpdateCategoryRequest request
-//    ) {
-//        return ResponseEntity.ok(new Resource(categoryService.updateCategory(id, request)));
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Resource> updateProduct(
+            @PathVariable Long id,
+            @RequestBody UpdateProductRequest request
+    ) {
+        return ResponseEntity.ok(new Resource(productService.updateProduct(id, request)));
+    }
 }
