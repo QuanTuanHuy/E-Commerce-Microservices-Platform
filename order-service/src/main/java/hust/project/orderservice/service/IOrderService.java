@@ -21,5 +21,9 @@ public interface IOrderService {
 
     OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request);
 
+    void acceptOrder(Long orderId);
+
+    void rejectOrder(Long orderId);
+
     void cancelOrderWeb(Long orderId, Long userId);
 }

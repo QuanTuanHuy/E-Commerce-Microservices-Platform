@@ -15,6 +15,8 @@ public interface IStockPort {
 
     List<StockEntity> getStocksByIds(List<Long> ids);
 
+    List<StockEntity> getStocksByProductIds(List<Long> productIds);
+
     List<StockEntity> getStocksByWarehouseIdAndProductIdIn(Long warehouseId, List<Long> productIds);
 
     void deleteStock(Long id);

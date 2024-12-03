@@ -1,7 +1,9 @@
 package hust.project.orderservice.constant;
 
 public enum OrderStatus {
-    PENDING,
+    PENDING_CREATED,
+    ACCEPTED,
+    REJECTED,
     CONFIRMED,
     PAID,
     SHIPPING,

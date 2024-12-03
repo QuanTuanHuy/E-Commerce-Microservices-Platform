@@ -6,6 +6,7 @@ import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.request.UpdateOrderStatusRequest;
 import hust.project.orderservice.entity.dto.response.PageInfo;
+import hust.project.orderservice.eventpublisher.OrderEventPublisher;
 import hust.project.orderservice.service.IOrderService;
 import hust.project.orderservice.usecase.CancelOrderUseCase;
 import hust.project.orderservice.usecase.CreateOrderUseCase;
@@ -24,6 +25,7 @@ public class OrderService implements IOrderService {
     private final GetOrderUseCase getOrderUseCase;
     private final UpdateOrderUseCase updateOrderUseCase;
     private final CancelOrderUseCase cancelOrderUseCase;
+    private final OrderEventPublisher orderEventPublisher;
 
     @Override
     public OrderEntity createOrder(CreateOrderRequest request) {
@@ -49,6 +51,16 @@ public class OrderService implements IOrderService {
     @Override
     public OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
         return updateOrderUseCase.updateOrderStatus(id, request);
+    }
+
+    @Override
+    public void acceptOrder(Long orderId) {
+        updateOrderUseCase.acceptOrder(orderId);
+    }
+
+    @Override
+    public void rejectOrder(Long orderId) {
+        updateOrderUseCase.rejectOrder(orderId);
     }
 
     @Override

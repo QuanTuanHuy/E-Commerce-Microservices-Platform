@@ -1,11 +1,15 @@
 package hust.project.orderservice.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import hust.project.common.event.OrderCreatedEvent;
+import hust.project.orderservice.entity.OrderEntity;
 import hust.project.orderservice.entity.dto.request.CreateOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetMyOrderRequest;
 import hust.project.orderservice.entity.dto.request.GetOrderRequest;
 import hust.project.orderservice.entity.dto.request.UpdateOrderStatusRequest;
 import hust.project.orderservice.entity.dto.response.Resource;
+import hust.project.orderservice.eventpublisher.OrderEventPublisher;
 import hust.project.orderservice.service.IOrderService;
 import hust.project.orderservice.utils.AuthenticationUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ public class OrderController {
     public static final String DEFAULT_PAGE_SIZE = "10";
 
     private final IOrderService orderService;
+    private final OrderEventPublisher orderEventPublisher;
 
     @PostMapping
     public ResponseEntity<Resource> createOrder(@RequestBody CreateOrderRequest request) {
@@ -31,7 +36,14 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> getDetailOrder(@PathVariable Long id) {
+    public ResponseEntity<Resource> getDetailOrder(@PathVariable Long id) throws JsonProcessingException {
+        OrderEntity order = orderService.getDetailOrder(id);
+        orderEventPublisher.publishOrderCreatedEvent(OrderCreatedEvent.builder()
+                        .orderId(order.getId())
+                        .customerId(order.getCustomerId())
+                        .totalPrice(order.getTotalPrice())
+//                        .orderItems(order.getOrderItems())
+                .build());
         return ResponseEntity.ok(new Resource(orderService.getDetailOrder(id)));
     }
 
