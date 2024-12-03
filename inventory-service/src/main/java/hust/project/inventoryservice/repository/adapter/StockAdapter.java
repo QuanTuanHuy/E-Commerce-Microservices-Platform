@@ -62,6 +62,11 @@ public class StockAdapter implements IStockPort {
     }
 
     @Override
+    public List<StockEntity> getStocksByProductIds(List<Long> productIds) {
+        return StockMapper.INSTANCE.toEntitiesFromModels(stockRepository.findByProductIdIn(productIds));
+    }
+
+    @Override
     public List<StockEntity> getStocksByWarehouseIdAndProductIdIn(Long warehouseId, List<Long> productIds) {
         return StockMapper.INSTANCE.toEntitiesFromModels(stockRepository.
                 findByWarehouseIdAndProductIdIn(warehouseId, productIds));

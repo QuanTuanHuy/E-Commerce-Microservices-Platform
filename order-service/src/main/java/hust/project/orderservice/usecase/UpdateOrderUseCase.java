@@ -1,9 +1,11 @@
 package hust.project.orderservice.usecase;
 
+import hust.project.common.event.OrderAcceptedEvent;
 import hust.project.orderservice.constant.ErrorCode;
 import hust.project.orderservice.constant.OrderStatus;
 import hust.project.orderservice.entity.OrderEntity;
 import hust.project.orderservice.entity.dto.request.UpdateOrderStatusRequest;
+import hust.project.orderservice.eventpublisher.OrderEventPublisher;
 import hust.project.orderservice.exception.AppException;
 import hust.project.orderservice.port.IOrderItemPort;
 import hust.project.orderservice.port.IOrderPort;
@@ -19,6 +21,39 @@ public class UpdateOrderUseCase {
     private final IOrderPort orderPort;
     private final IOrderItemPort orderItemPort;
     private final CancelOrderUseCase cancelOrderUseCase;
+    private final OrderEventPublisher orderEventPublisher;
+
+    @Transactional
+    public void acceptOrder(Long orderId) {
+        OrderEntity order = orderPort.getOrderById(orderId);
+        if (!order.getOrderStatus().equals(OrderStatus.PENDING_CREATED.name())) {
+            log.error("[UpdateOrderUseCase] order is not pending created, id: {}", orderId);
+            throw new AppException(ErrorCode.UPDATE_ORDER_FAILED);
+        }
+
+        order.setOrderStatus(OrderStatus.ACCEPTED.name());
+        orderPort.save(order);
+
+        orderEventPublisher.publishOrderAcceptedEvent(OrderAcceptedEvent.builder()
+                        .orderId(orderId)
+                        .customerId(order.getCustomerId())
+                        .couponCode(order.getCouponCode())
+                        .totalPrice(order.getTotalPrice())
+                        .discountAmount(order.getDiscountAmount())
+                .build());
+    }
+
+    @Transactional
+    public void rejectOrder(Long orderId) {
+        OrderEntity order = orderPort.getOrderById(orderId);
+        if (!order.getOrderStatus().equals(OrderStatus.PENDING_CREATED.name())) {
+            log.error("[UpdateOrderUseCase] order is not pending created, id: {}", orderId);
+            throw new AppException(ErrorCode.UPDATE_ORDER_FAILED);
+        }
+
+        order.setOrderStatus(OrderStatus.REJECTED.name());
+        orderPort.save(order);
+    }
 
     @Transactional
     public OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
@@ -48,7 +83,7 @@ public class UpdateOrderUseCase {
 
 
     private Boolean isStateValid(String newStatus, String currentStatus) {
-        return (OrderStatus.PENDING.name().equals(currentStatus) && OrderStatus.CONFIRMED.name().equals(newStatus)) ||
+        return (OrderStatus.PENDING_CREATED.name().equals(currentStatus) && OrderStatus.CONFIRMED.name().equals(newStatus)) ||
                 (OrderStatus.CONFIRMED.name().equals(currentStatus) && OrderStatus.SHIPPING.name().equals(newStatus)) ||
                 (OrderStatus.CONFIRMED.name().equals(currentStatus) && OrderStatus.PAID.name().equals(newStatus)) ||
                 (OrderStatus.PAID.name().equals(currentStatus) && OrderStatus.SHIPPING.name().equals(newStatus)) ||
