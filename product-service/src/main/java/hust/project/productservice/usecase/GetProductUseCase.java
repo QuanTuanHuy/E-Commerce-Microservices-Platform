@@ -153,4 +153,10 @@ public class GetProductUseCase {
                 .toList();
     }
 
+    public List<ProductGetModel> getProductVariants(Long parentId) {
+        return productPort.getProductsByParentId(parentId).stream()
+                .map(ProductMapper.INSTANCE::toGetModelFromEntity)
+                .toList();
+    }
+
 }

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class DeleteCartItemUseCase {
 
         requests.forEach(request -> {
             CartItemEntity cartItem = mapIdToCartItem.getOrDefault(request.getProductId(), null);
-            if (cartItem != null) {
+            if (!ObjectUtils.isEmpty(cartItem)) {
                 if (cartItem.getQuantity() > request.getQuantity()) {
                     cartItem.setQuantity(cartItem.getQuantity() - request.getQuantity());
                     adjustedCartItems.add(cartItem);

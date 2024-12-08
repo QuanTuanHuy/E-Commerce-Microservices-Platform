@@ -19,6 +19,8 @@ public interface IOrderService {
 
     Pair<PageInfo, List<OrderEntity>> getAllOrders(GetOrderRequest filter);
 
+    List<OrderEntity> getOrderExistedByUserIdAndProductIds(Long userId, List<Long> productIds);
+
     OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request);
 
     void cancelOrderWeb(Long orderId, Long userId);

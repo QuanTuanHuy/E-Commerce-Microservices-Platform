@@ -79,4 +79,10 @@ public class OrderAdapter implements IOrderPort {
                 }
         ));
     }
+
+    @Override
+    public List<OrderEntity> getExistedOrdersByCustomerIdAndProductIds(Long customerId, List<Long> productIds) {
+        return OrderMapper.INSTANCE.toEntitiesFromModels(orderRepository
+                .getExistedOrdersByCustomerIdAndProductIds(customerId, productIds));
+    }
 }

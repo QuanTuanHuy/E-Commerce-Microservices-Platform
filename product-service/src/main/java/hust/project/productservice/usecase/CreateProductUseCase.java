@@ -105,7 +105,7 @@ public class CreateProductUseCase {
                                 .thumbnailImage(productVariant.getThumbnailImage())
                                 .parentId(savedProduct.getId())
                                 .isPublished(savedProduct.getIsPublished())
-                                .stockQuantity(0L)
+                                .stockQuantity(productVariant.getStockQuantity())
                                 .build();
 
                         ProductEntity savedVariant = productPort.save(variant);

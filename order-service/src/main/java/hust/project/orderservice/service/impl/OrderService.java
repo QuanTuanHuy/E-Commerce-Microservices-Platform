@@ -47,6 +47,11 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public List<OrderEntity> getOrderExistedByUserIdAndProductIds(Long userId, List<Long> productIds) {
+        return getOrderUseCase.getOrderExistedByUserIdAndProductIds(userId, productIds);
+    }
+
+    @Override
     public OrderEntity updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
         return updateOrderUseCase.updateOrderStatus(id, request);
     }

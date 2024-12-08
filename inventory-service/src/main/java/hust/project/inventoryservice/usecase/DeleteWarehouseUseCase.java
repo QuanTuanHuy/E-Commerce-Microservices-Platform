@@ -17,6 +17,8 @@ public class DeleteWarehouseUseCase {
     public void deleteWarehouse(Long id) {
         WarehouseEntity warehouse = warehousePort.getWarehouseById(id);
 
+        //TODO: check if warehouse has stock
+
         warehouseAddressPort.deleteWarehouseAddress(warehouse.getAddressId());
         warehousePort.deleteWarehouse(id);
     }

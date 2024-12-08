@@ -12,4 +12,6 @@ public interface CustomOrderRepository {
     Pair<PageInfo, List<OrderModel>> getAllOrders(GetOrderRequest filter);
 
     Pair<PageInfo, List<OrderModel>> getMyOrders(Long userId, GetMyOrderRequest filter);
+
+    List<OrderModel> getExistedOrdersByCustomerIdAndProductIds(Long customerId, List<Long> productIds);
 }

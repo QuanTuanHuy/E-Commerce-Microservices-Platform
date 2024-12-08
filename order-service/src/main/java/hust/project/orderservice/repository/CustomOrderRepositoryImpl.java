@@ -108,6 +108,26 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
 
     }
 
+    @Override
+    public List<OrderModel> getExistedOrdersByCustomerIdAndProductIds(Long customerId, List<Long> productIds) {
+        String sql = """
+                    WITH T AS
+                    (
+                        SELECT * FROM orders WHERE customer_id = :customerId
+                        AND order_status = 'FINISHED'
+                    )
+                    SELECT t.* FROM T AS t
+                    JOIN order_items AS oi ON t.id = oi.order_id
+                    WHERE oi.product_id IN (:productIds)  
+                """;
+
+        Query query = entityManager.createNativeQuery(sql, OrderModel.class);
+        query.setParameter("customerId", customerId);
+        query.setParameter("productIds", productIds);
+
+        return query.getResultList();
+    }
+
 
     private StringBuilder buildOderStatuses(List<String> orderStatuses) {
         StringBuilder orderStatusesStr = new StringBuilder();

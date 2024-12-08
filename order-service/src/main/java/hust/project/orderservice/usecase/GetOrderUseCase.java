@@ -54,6 +54,18 @@ public class GetOrderUseCase {
         return Pair.of(result.getFirst(), orders);
     }
 
+    public List<OrderEntity> getOrderExistedByUserIdAndProductIds(Long userId, List<Long> productIds) {
+        List<OrderEntity> orders = orderPort.getExistedOrdersByCustomerIdAndProductIds(userId, productIds);
+
+        if (orders.isEmpty()) {
+            return orders;
+        }
+
+        setOrderItemsAndShippingAddress(orders);
+
+        return orders;
+    }
+
     private void setOrderItemsAndShippingAddress(List<OrderEntity> orders) {
         List<Long> orderIds = orders.stream().map(OrderEntity::getId).toList();
         List<OrderItemEntity> orderItems = orderItemPort.getOrderItemsByOrderIds(orderIds);

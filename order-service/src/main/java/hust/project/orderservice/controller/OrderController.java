@@ -82,6 +82,14 @@ public class OrderController {
         return ResponseEntity.ok(new Resource(orderService.getMyOrders(userId, filter)));
     }
 
+    @GetMapping("/finished")
+    public ResponseEntity<Resource> getOrderExistedByUserId(
+            @RequestParam(name = "product_ids") List<Long> productIds
+    ) {
+        Long userId = AuthenticationUtils.getCurrentUserId();
+        return ResponseEntity.ok(new Resource(orderService.getOrderExistedByUserIdAndProductIds(userId, productIds)));
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Resource> updateOrderStatusOps(
             @PathVariable Long id,

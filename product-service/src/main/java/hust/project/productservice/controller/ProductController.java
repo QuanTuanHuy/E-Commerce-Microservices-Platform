@@ -36,6 +36,13 @@ public class ProductController {
         return ResponseEntity.ok(new Resource(productService.getProductsByIds(ids)));
     }
 
+    @GetMapping("/variants")
+    public ResponseEntity<Resource> getProductVariants(
+            @RequestParam(name = "parent_id") Long parentId
+    ) {
+        return ResponseEntity.ok(new Resource(productService.getProductVariants(parentId)));
+    }
+
     @GetMapping("/by_brand_id")
     public ResponseEntity<Resource> getProductsByBrandId(
             @RequestParam(name = "brand_ids") List<Long> brandIds

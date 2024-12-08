@@ -60,6 +60,11 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<ProductGetModel> getProductVariants(Long parentId) {
+        return getProductUseCase.getProductVariants(parentId);
+    }
+
+    @Override
     public ProductEntity updateProduct(Long id, UpdateProductRequest request) {
         return updateProductUseCase.updateProduct(id, request);
     }

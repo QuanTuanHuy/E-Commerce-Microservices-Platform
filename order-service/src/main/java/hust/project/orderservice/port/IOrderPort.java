@@ -16,4 +16,6 @@ public interface IOrderPort {
     Pair<PageInfo, List<OrderEntity>> getMyOrders(Long userId, GetMyOrderRequest filter);
 
     OrderEntity getOrderById(Long id);
+
+    List<OrderEntity> getExistedOrdersByCustomerIdAndProductIds(Long customerId, List<Long> productIds);
 }

@@ -28,8 +28,8 @@ public class GetWarehouseUseCase {
     public List<WarehouseEntity> getAllWarehouses(GetWarehouseRequest filter) {
         List<WarehouseEntity> warehouses = warehousePort.getAllWarehouses(filter);
 
-        List<Long> addressId = warehouses.stream().map(WarehouseEntity::getAddressId).toList();
-        List<WarehouseAddressEntity> addressList = warehouseAddressPort.getWarehouseAddressByIds(addressId);
+        List<Long> addressIds = warehouses.stream().map(WarehouseEntity::getAddressId).toList();
+        List<WarehouseAddressEntity> addressList = warehouseAddressPort.getWarehouseAddressByIds(addressIds);
         var mapIdToAddress = addressList.stream()
                 .collect(Collectors.toMap(WarehouseAddressEntity::getId, Function.identity()));
 
