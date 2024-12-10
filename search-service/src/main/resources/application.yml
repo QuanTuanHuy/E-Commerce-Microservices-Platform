@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: search-service
+
+elasticsearch:
+  password: M6qWeU_pG4yqGfk1E0dh
+  username: elastic
+  url: localhost:9200
+
+
+
+resilience4j:
+  retry:
+    instances:
+      restApi:
+        max-attempts: 3
+        wait-duration:
+          seconds: 1
+
+  circuitbreaker:
+    instances:
+      restCircuitBreaker:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 10
+        permitted-number-of-calls-in-half-open-state: 3
+
+app:
+  jwt:
+    signer-key: 1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij
+    valid-duration: 360000
+
+  services:
+    product-service:
+      url: http://localhost:8082
+    order-service:
+      url: http://localhost:8086
+    identity-service:
+      url: http://localhost:8081
+
+
+server:
+  port: 8089
+

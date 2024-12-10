@@ -9,6 +9,7 @@ services:
       - "3308:3306"
     volumes:
       - db:/var/lib/mysql
+
   redis:
     image: redis:7.2.4-alpine
     container_name: redis_container
@@ -17,8 +18,22 @@ services:
     ports:
       - "6379:6379"
 
+  elastic:
+    image: elasticsearch:8.16.1
+    container_name: elastic_container
+    environment:
+        - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    networks:
+      - app-net
+
 volumes:
   db:
+    driver: local
+  es-data:
     driver: local
 
 networks:
