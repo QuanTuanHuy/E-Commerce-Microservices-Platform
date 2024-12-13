@@ -6,10 +6,7 @@ import hust.project.searchservice.entity.dto.request.GetProductRequest;
 import hust.project.searchservice.entity.dto.request.UpdateProductRequest;
 import hust.project.searchservice.entity.dto.response.PageInfo;
 import hust.project.searchservice.service.IProductService;
-import hust.project.searchservice.usecase.CreateProductUseCase;
-import hust.project.searchservice.usecase.DeleteProductUseCase;
-import hust.project.searchservice.usecase.GetProductUseCase;
-import hust.project.searchservice.usecase.UpdateProductUseCase;
+import hust.project.searchservice.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,7 @@ public class ProductService implements IProductService {
     private final CreateProductUseCase createProductUseCase;
     private final UpdateProductUseCase updateProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
+    private final AutoCompleteProductNameUseCase autoCompleteProductNameUseCase;
 
     @Override
     public ProductEntity createProduct(CreateProductRequest request) {
@@ -42,6 +40,11 @@ public class ProductService implements IProductService {
     @Override
     public Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter) {
         return getProductUseCase.getAllProducts(filter);
+    }
+
+    @Override
+    public List<ProductEntity> autoCompleteProductName(String name) {
+        return autoCompleteProductNameUseCase.autoCompleteProductName(name);
     }
 
     @Override

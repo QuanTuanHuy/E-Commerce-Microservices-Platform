@@ -110,6 +110,26 @@ public class ProductAdapter implements IProductPort {
         return Pair.of(pageInfo, products);
     }
 
+    @Override
+    public List<ProductEntity> autoCompleteProductName(String keyword) {
+        Pageable pageable = PageRequest.of(0, 5);
+
+        NativeQuery nativeQuery = NativeQuery.builder()
+                .withQuery(q -> q
+                        .matchPhrasePrefix(mpp -> mpp
+                                .field("name")
+                                .query(keyword)
+                        ))
+                .withPageable(pageable)
+                .build();
+
+        SearchHits<ProductModel> searchHitsResult = elasticsearchOperations.search(nativeQuery, ProductModel.class);
+        return searchHitsResult.getSearchHits().stream()
+                .map(SearchHit::getContent)
+                .map(ProductMapper.INSTANCE::toEntityFromModel)
+                .toList();
+    }
+
     private ObjectBuilder<SortOptions> getSort(String sortType) {
         FieldSort fieldSort;
         if (sortType.equals(SortType.PRICE_ASC.name())) {
