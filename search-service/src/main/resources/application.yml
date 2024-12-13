@@ -2,12 +2,24 @@ spring:
   application:
     name: search-service
 
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: search-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+
 elasticsearch:
   password: M6qWeU_pG4yqGfk1E0dh
   username: elastic
   url: localhost:9200
 
-
+kafka:
+  topic:
+    product-event: product-event
 
 resilience4j:
   retry:

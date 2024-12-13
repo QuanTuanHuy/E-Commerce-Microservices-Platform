@@ -14,5 +14,7 @@ public interface IProductPort {
 
     Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter);
 
+    List<ProductEntity> autoCompleteProductName(String keyword);
+
     void deleteProductById(Long id);
 }

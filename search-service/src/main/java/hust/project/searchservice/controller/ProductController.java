@@ -1,8 +1,6 @@
 package hust.project.searchservice.controller;
 
-import hust.project.searchservice.entity.dto.request.CreateProductRequest;
 import hust.project.searchservice.entity.dto.request.GetProductRequest;
-import hust.project.searchservice.entity.dto.request.UpdateProductRequest;
 import hust.project.searchservice.entity.dto.response.Resource;
 import hust.project.searchservice.service.IProductService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final IProductService productService;
 
-    @PostMapping
-    public ResponseEntity<Resource> createProduct(
-            @RequestBody CreateProductRequest request
-    ) {
-        return ResponseEntity.ok(new Resource(productService.createProduct(request)));
-    }
+//    @PostMapping
+//    public ResponseEntity<Resource> createProduct(
+//            @RequestBody CreateProductRequest request
+//    ) {
+//        return ResponseEntity.ok(new Resource(productService.createProduct(request)));
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getDetailProduct(
@@ -38,7 +36,7 @@ public class ProductController {
             @RequestParam(name = "category", required = false) String category,
             @RequestParam(name = "min_price", required = false) Double minPrice,
             @RequestParam(name = "max_price", required = false) Double maxPrice,
-            @RequestParam(name = "sort_type", required = false) String sortType
+            @RequestParam(name = "sort_type", defaultValue = "created_at") String sortType
     ) {
         var filter = GetProductRequest.builder()
                 .page(page)
@@ -52,20 +50,27 @@ public class ProductController {
         return ResponseEntity.ok(new Resource(productService.getAllProducts(filter)));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Resource> updateProduct(
-            @PathVariable Long id,
-            @RequestBody UpdateProductRequest request
+    @GetMapping("/auto_complete")
+    public ResponseEntity<Resource> autoCompleteProductName(
+            @RequestParam(name = "keyword") String keyword
     ) {
-        return ResponseEntity.ok(new Resource(productService.updateProduct(id, request)));
+        return ResponseEntity.ok(new Resource(productService.autoCompleteProductName(keyword)));
     }
 
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Resource> updateProduct(
+//            @PathVariable Long id,
+//            @RequestBody UpdateProductRequest request
+//    ) {
+//        return ResponseEntity.ok(new Resource(productService.updateProduct(id, request)));
+//    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Resource> deleteProductById(
-            @PathVariable Long id
-    ) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok(new Resource(null));
-    }
+
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Resource> deleteProductById(
+//            @PathVariable Long id
+//    ) {
+//        productService.deleteProduct(id);
+//        return ResponseEntity.ok(new Resource(null));
+//    }
 }

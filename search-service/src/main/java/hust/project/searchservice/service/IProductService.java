@@ -18,5 +18,7 @@ public interface IProductService {
 
     Pair<PageInfo, List<ProductEntity>> getAllProducts(GetProductRequest filter);
 
+    List<ProductEntity> autoCompleteProductName(String name);
+
     void deleteProduct(Long id);
 }
