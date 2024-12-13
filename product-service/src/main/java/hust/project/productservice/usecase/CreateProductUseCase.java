@@ -1,5 +1,6 @@
 package hust.project.productservice.usecase;
 
+import hust.project.common.event.ProductCreatedEvent;
 import hust.project.productservice.constants.ErrorCode;
 import hust.project.productservice.constants.ImageType;
 import hust.project.productservice.entity.*;
@@ -26,6 +27,7 @@ public class CreateProductUseCase {
     private final IImagePort imagePort;
     private final IProductCategoryPort productCategoryPort;
     private final IProductRelatedPort productRelatedPort;
+    private final IProductEventPort productEventPort;
 
     @Transactional
     public ProductEntity createProduct(CreateProductRequest request) {
@@ -146,6 +148,37 @@ public class CreateProductUseCase {
             productRelatedPort.saveAll(productRelatedEntities);
             savedProduct.setRelatedProducts(relatedProducts);
         }
+
+
+        // send ProductCreatedEvent
+        List<ProductCreatedEvent> productCreatedEvents = new ArrayList<>();
+
+        ProductCreatedEvent mainProductCreatedEvent = ProductCreatedEvent.builder()
+                .id(savedProduct.getId())
+                .name(savedProduct.getName())
+                .slug(savedProduct.getSlug())
+                .price(savedProduct.getPrice())
+                .isPublished(savedProduct.getIsPublished())
+                .brand(brand != null ? brand.getName() : null)
+                .categories(categories != null ? categories.stream().map(CategoryEntity::getName).toList() : null)
+                .build();
+        productCreatedEvents.add(mainProductCreatedEvent);
+
+        if (!CollectionUtils.isEmpty(savedProduct.getProductVariants())) {
+            productCreatedEvents.addAll(savedProduct.getProductVariants().stream()
+                    .map(productVariant -> ProductCreatedEvent.builder()
+                            .id(productVariant.getId())
+                            .name(productVariant.getName())
+                            .slug(productVariant.getSlug())
+                            .price(productVariant.getPrice())
+                            .isPublished(productVariant.getIsPublished())
+                            .brand(mainProductCreatedEvent.getBrand())
+                            .categories(mainProductCreatedEvent.getCategories())
+                            .build())
+                    .toList());
+        }
+
+        productCreatedEvents.forEach(productEventPort::sendProductCreatedEvent);
 
 
         return savedProduct;

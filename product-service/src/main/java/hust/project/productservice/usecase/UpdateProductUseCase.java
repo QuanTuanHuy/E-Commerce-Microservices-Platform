@@ -1,5 +1,6 @@
 package hust.project.productservice.usecase;
 
+import hust.project.common.event.ProductUpdatedEvent;
 import hust.project.productservice.constants.ErrorCode;
 import hust.project.productservice.constants.ImageType;
 import hust.project.productservice.entity.*;
@@ -32,6 +33,7 @@ public class UpdateProductUseCase {
     private final IProductCategoryPort productCategoryPort;
     private final IProductRelatedPort productRelatedPort;
     private final IImagePort imagePort;
+    private final IProductEventPort productEventPort;
 
     public ProductEntity updateProduct(Long id, UpdateProductRequest request) {
         ProductEntity product = productPort.getProductById(id);
@@ -72,6 +74,7 @@ public class UpdateProductUseCase {
         product.setThumbnailImage(request.getThumbnailImage());
 
         product = productPort.save(product);
+        final Boolean isPublished = product.getIsPublished();
 
 
         // update product category
@@ -119,36 +122,41 @@ public class UpdateProductUseCase {
 
 
         // update product related
-        List<ProductRelatedEntity> existedProductRelated = productRelatedPort.getProductRelatedByProductId(id);
-        Set<Long> existedRelatedProductIds = existedProductRelated.stream()
-                .map(ProductRelatedEntity::getRelatedProductId)
-                .collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(request.getRelatedProductIds())) {
+            productRelatedPort.deleteProductRelatedByProductId(id);
+        } else {
+            List<ProductRelatedEntity> existedProductRelated = productRelatedPort.getProductRelatedByProductId(id);
+            Set<Long> existedRelatedProductIds = existedProductRelated.stream()
+                    .map(ProductRelatedEntity::getRelatedProductId)
+                    .collect(Collectors.toSet());
 
-        List<Long> newRelatedProductIds = request.getRelatedProductIds().stream()
-                        .filter(relatedProductId -> !existedRelatedProductIds.contains(relatedProductId)).toList();
+            List<Long> newRelatedProductIds = request.getRelatedProductIds().stream()
+                    .filter(relatedProductId -> !existedRelatedProductIds.contains(relatedProductId)).toList();
 
 
-        List<Long> deleteProductRelatedIds = existedProductRelated.stream()
-                        .filter(pr -> !request.getRelatedProductIds().contains(pr.getRelatedProductId()))
-                        .map(ProductRelatedEntity::getId).toList();
+            List<Long> deleteProductRelatedIds = existedProductRelated.stream()
+                    .filter(pr -> !request.getRelatedProductIds().contains(pr.getRelatedProductId()))
+                    .map(ProductRelatedEntity::getId).toList();
 
-        if (!CollectionUtils.isEmpty(newRelatedProductIds)) {
-            List<ProductRelatedEntity> newProductRelated = newRelatedProductIds.stream()
-                    .map(relatedProductId -> ProductRelatedEntity.builder()
-                            .productId(id)
-                            .relatedProductId(relatedProductId)
-                            .build())
-                    .toList();
+            if (!CollectionUtils.isEmpty(newRelatedProductIds)) {
+                List<ProductRelatedEntity> newProductRelated = newRelatedProductIds.stream()
+                        .map(relatedProductId -> ProductRelatedEntity.builder()
+                                .productId(id)
+                                .relatedProductId(relatedProductId)
+                                .build())
+                        .toList();
 
-            productRelatedPort.saveAll(newProductRelated);
-        }
+                productRelatedPort.saveAll(newProductRelated);
+            }
 
-        if (!CollectionUtils.isEmpty(deleteProductRelatedIds)) {
-            productRelatedPort.deleteProductRelatedByIds(deleteProductRelatedIds);
+            if (!CollectionUtils.isEmpty(deleteProductRelatedIds)) {
+                productRelatedPort.deleteProductRelatedByIds(deleteProductRelatedIds);
+            }
         }
 
 
         // update existed product variant
+        // TODO: update product variant publish status
         List<UpdateProductVariationRequest> updateProductVariantRequests = request.getProductVariants().stream()
                 .filter(pv -> pv.getId() != null).toList();
 
@@ -167,6 +175,7 @@ public class UpdateProductUseCase {
             currentProductVariant.setName(updateRequest.getName());
             currentProductVariant.setSlug(updateRequest.getSlug());
             currentProductVariant.setPrice(updateRequest.getPrice());
+            currentProductVariant.setIsPublished(isPublished);
             currentProductVariant.setThumbnailImage(updateRequest.getThumbnailImage());
 
 
@@ -175,6 +184,7 @@ public class UpdateProductUseCase {
         });
 
         productPort.saveAll(existedProductVariants);
+
 
         // create new product variant
         List<UpdateProductVariationRequest> newProductVariantRequest = request.getProductVariants().stream()
@@ -186,6 +196,7 @@ public class UpdateProductUseCase {
                                 .name(productVariantRequest.getName())
                                 .slug(productVariantRequest.getSlug())
                                 .price(productVariantRequest.getPrice())
+                                .isPublished(isPublished)
                                 .thumbnailImage(productVariantRequest.getThumbnailImage())
                                 .build())
                         .toList();
@@ -211,7 +222,6 @@ public class UpdateProductUseCase {
         });
 
 
-
         imagePort.saveAll(allNewImageEntities);
         imagePort.deleteImagesByIds(allDeleteImageIds);
 
@@ -219,6 +229,38 @@ public class UpdateProductUseCase {
         product.setBrand(brand);
         product.setCategories(categories);
         product.setProductVariants(productPort.getProductsByParentId(id));
+
+
+        // send ProductUpdatedEvent
+        List<ProductUpdatedEvent> productUpdatedEvents = new ArrayList<>();
+
+        ProductUpdatedEvent mainProductUpdatedEvent = ProductUpdatedEvent.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .slug(product.getSlug())
+                .price(product.getPrice())
+                .isPublished(product.getIsPublished())
+                .brand(brand != null ? brand.getName() : null)
+                .categories(categories != null ? categories.stream().map(CategoryEntity::getName).toList() : null)
+                .build();
+        productUpdatedEvents.add(mainProductUpdatedEvent);
+
+
+        List<ProductUpdatedEvent> productVariantUpdatedEvents = product.getProductVariants().stream()
+                .map(productVariant -> ProductUpdatedEvent.builder()
+                        .id(productVariant.getId())
+                        .name(productVariant.getName())
+                        .slug(productVariant.getSlug())
+                        .price(productVariant.getPrice())
+                        .isPublished(productVariant.getIsPublished())
+                        .brand(mainProductUpdatedEvent.getBrand())
+                        .categories(mainProductUpdatedEvent.getCategories())
+                        .build())
+                .toList();
+        productUpdatedEvents.addAll(productVariantUpdatedEvents);
+
+        productUpdatedEvents.forEach(productEventPort::sendProductUpdatedEvent);
+
 
         return product;
     }

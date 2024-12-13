@@ -38,7 +38,7 @@ public class ProductController {
             @RequestParam(name = "category", required = false) String category,
             @RequestParam(name = "min_price", required = false) Double minPrice,
             @RequestParam(name = "max_price", required = false) Double maxPrice,
-            @RequestParam(name = "sort_type", required = false) String sortType
+            @RequestParam(name = "sort_type", defaultValue = "created_at") String sortType
     ) {
         var filter = GetProductRequest.builder()
                 .page(page)
