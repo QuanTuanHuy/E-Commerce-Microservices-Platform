@@ -20,6 +20,9 @@ public enum ErrorCode {
     UPDATE_SHIPPING_ADDRESS_FAILED(100011, "Update shipping address failed", HttpStatus.INTERNAL_SERVER_ERROR),
     DELETE_SHIPPING_ADDRESS_FAILED(100012, "Delete shipping address failed", HttpStatus.INTERNAL_SERVER_ERROR),
     DELETE_CART_ITEM_FAILED(100013, "Delete cart item failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    CREATE_PRODUCT_FAILED(100014, "Create product failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    GET_PRODUCT_FAILED(100015, "Get product failed", HttpStatus.NOT_FOUND),
+    DELETE_PRODUCT_FAILED(100016, "Delete product failed", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {
