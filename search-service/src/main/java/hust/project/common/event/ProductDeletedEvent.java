@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDeletedEvent {
+public class ProductDeletedEvent implements ProductDomainEvent {
     private Long id;
 }

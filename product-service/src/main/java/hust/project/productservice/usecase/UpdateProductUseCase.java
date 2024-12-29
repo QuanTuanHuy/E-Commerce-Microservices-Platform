@@ -259,7 +259,7 @@ public class UpdateProductUseCase {
                 .toList();
         productUpdatedEvents.addAll(productVariantUpdatedEvents);
 
-        productUpdatedEvents.forEach(productEventPort::sendProductUpdatedEvent);
+        productUpdatedEvents.forEach(productEventPort::publishProductDomainEvent);
 
 
         return product;

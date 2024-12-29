@@ -1,7 +1,8 @@
-package hust.project.searchservice.controller.eventhandler;
+package hust.project.searchservice.messaging;
 
 import hust.project.common.event.ProductCreatedEvent;
 import hust.project.common.event.ProductDeletedEvent;
+import hust.project.common.event.ProductDomainEvent;
 import hust.project.common.event.ProductUpdatedEvent;
 import hust.project.searchservice.entity.dto.request.CreateProductRequest;
 import hust.project.searchservice.entity.dto.request.UpdateProductRequest;
@@ -13,14 +14,27 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@KafkaListener(topics = "${kafka.topic.product-event}")
 @RequiredArgsConstructor
+@KafkaListener(topics = "${kafka.topic.product-event}")
 @Slf4j
-public class ProductEventHandler {
+public class ProductEventHandler implements IProductEventConsumer {
+
     private final IProductService productService;
 
+    @Override
     @KafkaHandler
-    public void handleProductCreatedEvent(ProductCreatedEvent event) {
+    public void handleProductDomainEvent(ProductDomainEvent event) {
+        log.info("[ProductEventConsumer]: handle product event: {}", event);
+        if (event instanceof ProductCreatedEvent) {
+            createProduct((ProductCreatedEvent) event);
+        } else if (event instanceof ProductUpdatedEvent) {
+            updateProduct((ProductUpdatedEvent) event);
+        } else if (event instanceof ProductDeletedEvent) {
+            deleteProduct((ProductDeletedEvent) event);
+        }
+    }
+
+    public void createProduct(ProductCreatedEvent event) {
         log.info("[ProductEventHandler] handle product created event, event: {}", event);
 
         CreateProductRequest request = CreateProductRequest.builder()
@@ -36,17 +50,7 @@ public class ProductEventHandler {
         productService.createProduct(request);
     }
 
-    @KafkaHandler
-    public void handleProductDeletedEvent(ProductDeletedEvent event) {
-        log.info("[ProductEventHandler] handle product deleted event, event: {}", event);
-
-        productService.deleteProduct(event.getId());
-    }
-
-    @KafkaHandler
-    public void handleProductUpdatedEvent(ProductUpdatedEvent event) {
-        log.info("[ProductEventHandler] handle product updated event, event: {}", event);
-
+    public void updateProduct(ProductUpdatedEvent event) {
         UpdateProductRequest request = UpdateProductRequest.builder()
                 .name(event.getName())
                 .slug(event.getSlug())
@@ -57,5 +61,9 @@ public class ProductEventHandler {
                 .build();
 
         productService.updateProduct(event.getId(), request);
+    }
+
+    public void deleteProduct(ProductDeletedEvent event) {
+        productService.deleteProduct(event.getId());
     }
 }

@@ -31,7 +31,7 @@ public class DeleteProductUseCase {
 
         productPort.saveAll(deleteProducts);
 
-        deleteProducts.forEach(dp -> productEventPort.sendProductDeletedEvent(ProductDeletedEvent.builder()
+        deleteProducts.forEach(dp -> productEventPort.publishProductDomainEvent(ProductDeletedEvent.builder()
                         .id(dp.getId())
                 .build()));
     }

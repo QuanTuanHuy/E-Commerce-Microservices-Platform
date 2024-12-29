@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductCreatedEvent {
+public class ProductCreatedEvent implements ProductDomainEvent {
     private Long id;
     private String name;
     private String slug;

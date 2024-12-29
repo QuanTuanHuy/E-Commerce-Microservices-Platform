@@ -178,7 +178,7 @@ public class CreateProductUseCase {
                     .toList());
         }
 
-        productCreatedEvents.forEach(productEventPort::sendProductCreatedEvent);
+        productCreatedEvents.forEach(productEventPort::publishProductDomainEvent);
 
 
         return savedProduct;

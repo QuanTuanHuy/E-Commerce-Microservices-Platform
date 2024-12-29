@@ -12,8 +12,8 @@ public class ProductService implements IProductService {
     private final IProductPort productPort;
 
     @Override
-    public ProductEntity createProduct(ProductEntity productEntity) {
-        return productPort.save(productEntity);
+    public void createProduct(ProductEntity productEntity) {
+        productPort.save(productEntity);
     }
 
     @Override
@@ -22,18 +22,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductEntity updateProduct(ProductEntity productEntity) {
+    public void updateProduct(ProductEntity productEntity) {
         ProductEntity product = productPort.getProductById(productEntity.getId());
         product.setName(productEntity.getName());
         product.setSlug(productEntity.getSlug());
         product.setPrice(productEntity.getPrice());
         product.setId(productEntity.getId());
 
-        return productPort.save(product);
+        productPort.save(product);
     }
 
     @Override
     public void deleteProduct(Long id) {
-        productPort.deleteProductById(id);
+        ProductEntity product = productPort.getProductById(id);
+        product.setIsPublished(false);
+        productPort.save(product);
     }
 }
