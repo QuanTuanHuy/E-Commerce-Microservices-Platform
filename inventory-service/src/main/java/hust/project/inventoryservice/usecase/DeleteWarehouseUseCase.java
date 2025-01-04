@@ -27,7 +27,7 @@ public class DeleteWarehouseUseCase {
     public void deleteWarehouse(Long id) {
         WarehouseEntity warehouse = warehousePort.getWarehouseById(id);
 
-        //TODO: check if warehouse has stock
+
         List<StockEntity> stocks = stockPort.getStocksByWarehouseId(id);
         if (!CollectionUtils.isEmpty(stocks)) {
             log.error("[DeleteWarehouseUseCase] Warehouse has stock, cannot delete");
