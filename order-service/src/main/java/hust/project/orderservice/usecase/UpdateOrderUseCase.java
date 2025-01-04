@@ -46,11 +46,33 @@ public class UpdateOrderUseCase {
         return order;
     }
 
+    public void approveOrder(Long orderId) {
+        OrderEntity order = orderPort.getOrderById(orderId);
+        if (!order.getOrderStatus().equals(OrderStatus.APPROVED_PENDING.name())) {
+            log.error("[UpdateOrderUseCase] order is not in pending status, id: {}", orderId);
+            throw new AppException(ErrorCode.UPDATE_ORDER_FAILED);
+        }
+
+        order.setOrderStatus(OrderStatus.APPROVED.name());
+        orderPort.save(order);
+    }
+
+    public void rejectOrder(Long orderId) {
+        OrderEntity order = orderPort.getOrderById(orderId);
+        if (!order.getOrderStatus().equals(OrderStatus.APPROVED_PENDING.name())) {
+            log.error("[UpdateOrderUseCase] order is not in pending status, id: {}", orderId);
+            throw new AppException(ErrorCode.UPDATE_ORDER_FAILED);
+        }
+
+        order.setOrderStatus(OrderStatus.REJECTED.name());
+        orderPort.save(order);
+    }
+
 
     private Boolean isStateValid(String newStatus, String currentStatus) {
-        return (OrderStatus.PENDING.name().equals(currentStatus) && OrderStatus.CONFIRMED.name().equals(newStatus)) ||
-                (OrderStatus.CONFIRMED.name().equals(currentStatus) && OrderStatus.SHIPPING.name().equals(newStatus)) ||
-                (OrderStatus.CONFIRMED.name().equals(currentStatus) && OrderStatus.PAID.name().equals(newStatus)) ||
+        return (OrderStatus.APPROVED_PENDING.name().equals(currentStatus) && OrderStatus.APPROVED.name().equals(newStatus)) ||
+                (OrderStatus.APPROVED.name().equals(currentStatus) && OrderStatus.SHIPPING.name().equals(newStatus)) ||
+                (OrderStatus.APPROVED.name().equals(currentStatus) && OrderStatus.PAID.name().equals(newStatus)) ||
                 (OrderStatus.PAID.name().equals(currentStatus) && OrderStatus.SHIPPING.name().equals(newStatus)) ||
                 (OrderStatus.SHIPPING.name().equals(currentStatus) && OrderStatus.DELIVERED.name().equals(newStatus)) ||
                 (OrderStatus.DELIVERED.name().equals(currentStatus) && OrderStatus.PAID.name().equals(newStatus)) ||

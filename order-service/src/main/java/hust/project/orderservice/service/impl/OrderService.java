@@ -57,6 +57,16 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public void approveOrder(Long orderId) {
+        updateOrderUseCase.approveOrder(orderId);
+    }
+
+    @Override
+    public void rejectOrder(Long orderId) {
+        updateOrderUseCase.rejectOrder(orderId);
+    }
+
+    @Override
     public void cancelOrderWeb(Long orderId, Long userId) {
         cancelOrderUseCase.cancelOrderWeb(orderId, userId);
     }
