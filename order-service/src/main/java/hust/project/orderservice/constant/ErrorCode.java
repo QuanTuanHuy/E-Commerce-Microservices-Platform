@@ -23,6 +23,8 @@ public enum ErrorCode {
     CREATE_PRODUCT_FAILED(100014, "Create product failed", HttpStatus.INTERNAL_SERVER_ERROR),
     GET_PRODUCT_FAILED(100015, "Get product failed", HttpStatus.NOT_FOUND),
     DELETE_PRODUCT_FAILED(100016, "Delete product failed", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    CREATE_ORDER_SAGA_DATA_NOT_FOUND(100017, "Create order saga data not found", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {

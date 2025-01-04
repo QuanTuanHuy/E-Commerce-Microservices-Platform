@@ -13,6 +13,8 @@ public interface IStockPort {
 
     List<StockEntity> getStocksByWarehouseId(Long warehouseId);
 
+    List<StockEntity> getStocksByProductIds(List<Long> productIds);
+
     List<StockEntity> getStocksByIds(List<Long> ids);
 
     List<StockEntity> getStocksByWarehouseIdAndProductIdIn(Long warehouseId, List<Long> productIds);

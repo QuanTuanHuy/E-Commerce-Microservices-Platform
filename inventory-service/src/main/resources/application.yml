@@ -18,6 +18,13 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: inventory-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
 
 app:
   jwt:
@@ -32,6 +39,10 @@ app:
     identity-service:
       url: http://localhost:8081
 
+kafka:
+  topic:
+    create-order-saga-reply: create-order-saga-reply
+    inventory-service-request: inventory-service-request
 
 server:
   port: 8085

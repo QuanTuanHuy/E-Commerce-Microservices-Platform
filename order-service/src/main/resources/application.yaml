@@ -61,6 +61,9 @@ kafka:
   topic:
     product-event: product-event
     order-event: order-event
+    create-order-saga-reply: create-order-saga-reply
+    inventory-service-request: inventory-service-request
+    order-service-request: order-service-request
 
 server:
   port: 8086

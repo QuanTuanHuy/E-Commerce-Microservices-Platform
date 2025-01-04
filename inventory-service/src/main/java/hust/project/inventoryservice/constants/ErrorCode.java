@@ -20,6 +20,11 @@ public enum ErrorCode {
     UPDATE_STOCK_FAILED(100012, "Update stock failed", HttpStatus.BAD_REQUEST),
     DELETE_STOCK_FAILED(100013, "Delete stock failed", HttpStatus.BAD_REQUEST),
     CREATE_STOCK_HISTORY_FAILED(100014, "Create stock history failed", HttpStatus.BAD_REQUEST),
+    STOCK_NOT_ENOUGH(100015, "Stock not enough", HttpStatus.BAD_REQUEST),
+    CREATE_TICKET_FAILED(100016, "Create ticket failed", HttpStatus.BAD_REQUEST),
+    GET_TICKET_FAILED(100017, "Get ticket failed", HttpStatus.NOT_FOUND),
+    CREATE_TICKET_ITEM_FAILED(100018, "Create ticket item failed", HttpStatus.BAD_REQUEST),
+    GET_TICKET_ITEM_FAILED(100019, "Get ticket item failed", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {

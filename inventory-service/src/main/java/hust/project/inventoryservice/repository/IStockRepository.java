@@ -11,5 +11,7 @@ public interface IStockRepository extends IBaseRepository<StockModel> {
 
     List<StockModel> findByWarehouseIdAndProductIdIn(Long warehouseId, List<Long> productIds);
 
+    List<StockModel> findByProductIdIn(List<Long> productIds);
+
     List<StockModel> findByIdIn(List<Long> ids);
 }
