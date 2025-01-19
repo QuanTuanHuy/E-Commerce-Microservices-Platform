@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(
-        name = "product-client",
-        url = "${app.services.product-service.url}",
+        name = "product-service",
         configuration = FeignClientConfig.class
 )
 public interface IProductClient {

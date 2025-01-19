@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        name = "address-client",
-        url = "${app.services.address-service.url}",
+        name = "address-service",
         configuration = FeignClientConfig.class
 )
 public interface IAddressClient {

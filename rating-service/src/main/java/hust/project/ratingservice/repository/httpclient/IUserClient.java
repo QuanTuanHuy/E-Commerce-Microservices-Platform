@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(
-        name = "user-client",
-        url = "${app.services.identity-service.url}",
+        name = "identity-service",
         configuration = FeignClientConfig.class
 )
 public interface IUserClient {

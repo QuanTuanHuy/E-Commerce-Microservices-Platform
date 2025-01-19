@@ -11,7 +11,6 @@ import java.util.List;
 
 @FeignClient(
         name = "identity-service",
-        url = "${app.services.identity-service.url}",
         configuration = FeignClientConfig.class
 )
 public interface IIdentityClient {

@@ -11,7 +11,6 @@ import java.util.List;
 
 @FeignClient(
         name = "product-service",
-        url = "${app.services.product-service.url}",
         configuration = {FeignClientConfig.class}
 )
 public interface ProductClient {

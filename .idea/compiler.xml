@@ -16,6 +16,7 @@
         <module name="product-service" />
         <module name="order-service" />
         <module name="identity-service" />
+        <module name="eureka-server" />
       </profile>
       <profile name="Annotation profile for delivery-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -36,6 +37,7 @@
       <module name="address-service" options="-parameters" />
       <module name="cart-service" options="-parameters" />
       <module name="delivery-service" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
       <module name="identity-service" options="-parameters" />
       <module name="inventory-service" options="-parameters" />
       <module name="order-service" options="-parameters" />

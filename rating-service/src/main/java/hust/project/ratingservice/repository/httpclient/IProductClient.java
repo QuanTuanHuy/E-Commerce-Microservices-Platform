@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
-        name = "product-client",
-        url = "${app.services.product-service.url}",
+        name = "product-service",
         configuration = FeignClientConfig.class
 )
 public interface IProductClient {

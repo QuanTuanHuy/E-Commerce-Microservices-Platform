@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @FeignClient(
-        name = "cart-item-client",
-        url = "${app.services.cart-service.url}",
+        name = "cart-service",
         configuration = FeignClientConfig.class
 )
 public interface ICartItemClient {
