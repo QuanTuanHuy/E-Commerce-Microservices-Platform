@@ -29,7 +29,7 @@ app:
     valid-duration: 360000
 
 server:
-  port: 0
+  port: 8082
 
 eureka:
   client:
